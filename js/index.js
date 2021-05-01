@@ -2,117 +2,37 @@
 import * as PANOLENS from "panolens";
 import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// import { Typed } from "typed.js";
+import {NPC} from "./NPC";
+import {PanoramaItem, current_location} from "./PanoramaItem";
 
 import pano1_url from '../img/pano1.jpg';
 import pano2_url from '../img/pano2.jpg';
 
-let current_location = "";
+const init = (viewer) => {
+    let objects = {}; 
 
-class NPC{
-    constructor(name, path){
-        this.name = name;
-        this.npc_obj = null;
-        this.path = path;
-        this.loader = null;
-        this.panoramas = [];
+    for(let pan of panorams){
+        pan.setViewer(viewer);
+        viewer.add( pan.pano_obj );
+        objects[pan.name] = pan.pano_obj;
     }
+    // init edges
+    for(const pan of panorams){
+        for(const {dest, pos} of pan.transition_edges){
 
-    load(){
-        if(this.npc_obj) return;
-
-        console.log("loading npc model");
-        console.log(this.panoramas);
-
-        if(this.path.endsWith(".gltf")) this.load_GLTF();
-        else console.log("Can't load npc model");
-    }
-
-    load_GLTF(){
-        this.loader = new GLTFLoader();
-        this.loader.load(this.path, (gltf)=>{
-            this.npc_obj = gltf.scene;
-            this.npc_obj.scale.set(1,1,1);
-            this.npc_obj.position.set(20, 0, 40);
-            this.npc_obj.name = `npc_${this.name}`;
-
-            for(let pano of this.panoramas) pano.add(this.npc_obj);
-        });
-    }
-    move(vec){
-        if(!this.npc_obj) return;
-        this.npc_obj.position.set(vec);
-    }
-    addOnPanorama(pano_obj){
-        this.panoramas.push(pano_obj);
-    }
-}
-
-class PanoramaItem{
-    constructor({name,
-                 pano_url,
-                 transition_edges=[],
-                 enter_look_direction = new THREE.Vector3(0,0,0),
-                 npc_list
-                } = {}){
-        this.viewer;
-
-        this.name = name;
-        this.pano_url = pano_url; 
-        this.transition_edges = transition_edges;
-        this.pano_obj = new PANOLENS.ImagePanorama(this.pano_url);
-        this.enter_look_direction = enter_look_direction;
-        
-        this.first_look = true;
-        this.npc_list = npc_list;
-        for(let {npc, pos} of this.npc_list) npc.addOnPanorama(this.pano_obj);
-
-        addALight(this.pano_obj);
-
-        this.pano_obj.addEventListener('enter', () => {
-            current_location = this.name;
-            console.log(`entering "${current_location}"`);
-
-            if(this.first_look){
-                this.viewer.tweenControlCenter(this.enter_look_direction, 0);
-                console.log(`Looking at ${this.enter_look_direction}`)
-                this.first_look = false;
+            if(!objects[dest]){
+                console.log(`panorama with name: "${dest}" not exist can't link`)
+                continue;
             }
 
-            this.moveNPCs();
-        });
-
-        this.pano_obj.addEventListener( 'click', ( event ) => {
-
-            if ( event.intersects.length > 0 ) {
-              console.log(event);
-        
-              let intersect = event.intersects[ 0 ].object;
-        
-              if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ){
-                console.log("You clicked on npc !!!");
-                console.log(MAIN_NPC);
-              }
-            }
-        } );
-
-    }
-
-    setViewer(viewer){
-        this.viewer = viewer;
-    }
-
-    loadNPCs(){
-        for(let {npc, pos} of this.npc_list){
-            npc.load();
+            pan.pano_obj.link( objects[dest], pos );
         }
     }
-
-    moveNPCs(){
-        for(let {npc, pos} of this.npc_list){
-            npc.move(pos);
-        }
-    }
+    return objects;
 }
+
+// Execution starts here
 
 const MAIN_NPC = new NPC("steve", "../models/scene.gltf");
 
@@ -145,31 +65,6 @@ const panorams = [
     }),
 ];
 
-const init = (viewer) => {
-    let objects = {}; 
-
-    for(let pan of panorams){
-        pan.setViewer(viewer);
-        viewer.add( pan.pano_obj );
-        pan.loadNPCs();
-
-        objects[pan.name] = pan.pano_obj;
-    }
-    // init edges
-    for(const pan of panorams){
-        for(const {dest, pos} of pan.transition_edges){
-
-            if(!objects[dest]){
-                console.log(`panorama with name: "${dest}" not exist can't link`)
-                continue;
-            }
-
-            pan.pano_obj.link( objects[dest], pos );
-        }
-    }
-    return objects;
-}
-
 const panodiv = document.getElementById("pano-image");
 const viewer = new PANOLENS.Viewer({
     container: panodiv,
@@ -187,23 +82,34 @@ viewer.addUpdateCallback(()=>{
     if(MAIN_NPC.npc_obj){
         // console.log("rotate");
         MAIN_NPC.npc_obj.rotation.y += 0.05;
+        // MAIN_NPC.npc_obj.position.y += 0.3;
+
         // npc_obj.scene.rotation.x += 0.02;
     }
 });
 
+// let typed = new Typed('#dialog', {
+//     strings: ["First sentence.", "Second sentence."],
+//     typeSpeed: 30
+// });
+
 // addALight(test_panorama);
 
-// const test_panorama = panorams[0].pano_obj;
+const test_panorama = panorams[0].pano_obj;
 
-// let loader = new GLTFLoader();
-// let npc_obj = null;
-// loader.load("../models/scene.gltf", (gltf)=>{
-//     npc_obj = gltf;
-//     npc_obj.scene.scale.set(1,1,1);
-//     npc_obj.scene.position.set(10, 0, 60);
-//     npc_obj.scene.name = "NPC";
-//     test_panorama.add(npc_obj.scene);
-// });
+let loader = new GLTFLoader();
+let npc_obj = null;
+loader.load("../models/scene.gltf", (gltf)=>{
+    npc_obj = gltf.scene;
+    npc_obj.scale.set(1,1,1);
+    npc_obj.position.set(10, 0, 60);
+    npc_obj.name = "NPC";
+
+    for(let panorama of panorams){
+        let clone = Object.assign(Object.create(Object.getPrototypeOf(npc_obj)), npc_obj)
+        panorama.pano_obj.add( clone );
+    }
+});
 
 
 // viewer.addUpdateCallback(function(){
