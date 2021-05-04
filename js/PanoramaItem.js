@@ -42,7 +42,7 @@ export class PanoramaItem{
 
         this.pano_obj.addEventListener('leave', () => {
            console.log(`leave ${this.name}`);
-           this.removeAllNPCs();
+           // this.removeAllNPCs();
         });
 
         this.pano_obj.addEventListener( 'click', ( event ) => {
@@ -54,7 +54,6 @@ export class PanoramaItem{
 
               if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ){
                 console.log("You clicked on npc !!!");
-                console.log(MAIN_NPC);
               }
             }
         } );
