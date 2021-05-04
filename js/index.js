@@ -2,7 +2,8 @@
 import * as PANOLENS from "panolens";
 import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-// import { Typed } from "typed.js";
+import {type} from "./functions";
+
 import {NPC} from "./NPC";
 import {PanoramaItem} from "./PanoramaItem";
 
@@ -29,10 +30,15 @@ const init = (viewer) => {
             pan.pano_obj.link( objects[dest], pos );
         }
     }
+
+    const welcome_message = "HELL'o fucker!";
+    panorams[0].pano_obj.addEventListener( 'load', () => {
+        type([welcome_message]);
+    });
+
+
     return objects;
 }
-
-// Execution starts here
 
 const MAIN_NPC = new NPC("steve", "../models/scene.gltf");
 
@@ -71,48 +77,22 @@ const viewer = new PANOLENS.Viewer({
     output: 'console',
 });
 
+// type([""]);
 init(viewer);
 
+viewer.addUpdateCallback(()=>{
+    if(MAIN_NPC.npc_obj){
+        // console.log("rotate");
+        MAIN_NPC.npc_obj.rotation.y += 0.05;
+        // MAIN_NPC.npc_obj.position.y += 0.3;
 
-// viewer.addUpdateCallback(()=>{
-//     if(MAIN_NPC.npc_obj){
-//         // console.log("rotate");
-//         MAIN_NPC.npc_obj.rotation.y += 0.05;
-//         // MAIN_NPC.npc_obj.position.y += 0.3;
-//
-//         // npc_obj.scene.rotation.x += 0.02;
-//     }
-// });
+        // npc_obj.scene.rotation.x += 0.02;
+    }
+});
 
 
 
 const test_panorama = panorams[0].pano_obj;
-
-
-let loader = new GLTFLoader();
-let npc_obj = null;
-loader.load("../models/scene.gltf", (gltf)=>{
-    npc_obj = gltf.scene;
-    npc_obj.scale.set(1,1,1);
-    npc_obj.position.set(10, 0, 60);
-    npc_obj.name = "NPC";
-    console.log(npc_obj);
-
-    // for(let panorama of panorams){
-    //     // let clone = Object.assign(Object.create(Object.getPrototypeOf(npc_obj)), npc_obj);
-    //     panorama.pano_obj.add( npc_obj );
-    // }
-});
-
-
-// viewer.addUpdateCallback(function(){
-//     if(npc_obj){
-//         npc_obj.scene.rotation.y += 0.05;
-//         // npc_obj.scene.rotation.x += 0.02;
-//     }
-// });
-
-
 
 
 /*

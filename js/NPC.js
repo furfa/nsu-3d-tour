@@ -3,10 +3,18 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 export class NPC{
     constructor(name, path){
-        this.name = name;
+        this.name = `npc_${name}`;
         this.npc_obj = null;
         this.path = path;
         this.loader = null;
+
+        this.replics = [
+            "Привет ты находишься в НГУ^100(ЭУ)",
+            "иди нахуй",
+            "asdasdasdasd",
+            "sadasdsad",
+        ];
+        this.replic_i = 0;
     }
 
     async load(){
@@ -36,7 +44,24 @@ export class NPC{
     }
     move(vec){
         if(!this.npc_obj) return;
-        this.npc_obj.position.set(vec);
+        this.npc_obj.position.set(vec.x,vec.y,vec.z);
     }
+    handleClick() {
+        console.log(`You clicked on Me!\n (im: ${this.name} !!!)`);
+
+        let replic;
+        if(this.replic_i < this.replics.length){
+            replic =  this.replics[this.replic_i] ;
+            this.replic_i++;
+        }else{
+            replic =  "Продолжай экскурсию";
+        }
+
+
+        type([replic]);
+    }
+
+
+
 }
 

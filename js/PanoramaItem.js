@@ -42,7 +42,8 @@ export class PanoramaItem{
 
         this.pano_obj.addEventListener('leave', () => {
            console.log(`leave ${this.name}`);
-           // this.removeAllNPCs();
+           this.removeAllNPCs();
+           console.log(this.npc_list);
         });
 
         this.pano_obj.addEventListener( 'click', ( event ) => {
@@ -53,16 +54,29 @@ export class PanoramaItem{
               let intersect = event.intersects[ 0 ].object;
 
               if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ){
-                console.log("You clicked on npc !!!");
+                  let name = this.detectNPCName(intersect);
+                  for(let {npc, pos} of this.npc_list){
+                      if(npc.name === name) npc.handleClick();
+                  }
               }
             }
         } );
 
     }
 
+    detectNPCName(obj){
+      for (let i = 0; i <= 20 && obj.type !== 'Scene'; i++) {
+          obj = obj.parent;
+      }
+      if(obj.type === 'Scene')
+          return obj.name;
+      return null;
+    }
+
     removeAllNPCs() {
         for(let {npc, pos} of this.npc_list) {
-            this.pano_obj.remove(npc.npc_obj);
+            // this.pano_obj.remove(npc.npc_obj);
+            THREE.SceneUtils.detach(npc.npc_obj, this.pano_obj, this.viewer);
         }
     }
 
@@ -75,7 +89,10 @@ export class PanoramaItem{
             npc.load().then(
                 () => {
                     console.log(`adding npc ${npc.name} to panorama ${this.name}`);
+
+                    let clone = Object.assign(Object.create(Object.getPrototypeOf(npc.npc_obj)), npc.npc_obj);
                     this.pano_obj.add(npc.npc_obj);
+                    console.log(this);
                 }
             );
         }
