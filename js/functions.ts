@@ -15,6 +15,6 @@ export function type(strings){
 
 }
 
-function clearTyped() {
+function clearTyped() : void {
     typed.destroy();
 }

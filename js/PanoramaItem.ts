@@ -51,7 +51,7 @@ export class PanoramaItem{
             if ( event.intersects.length > 0 ) {
               console.log(event);
 
-              let intersect = event.intersects[ 0 ].object;
+              let intersect : THREE.Mesh = event.intersects[ 0 ].object;
 
               if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ){
                   let name = this.detectNPCName(intersect);
@@ -89,8 +89,6 @@ export class PanoramaItem{
             npc.load().then(
                 () => {
                     console.log(`adding npc ${npc.name} to panorama ${this.name}`);
-
-                    let clone = Object.assign(Object.create(Object.getPrototypeOf(npc.npc_obj)), npc.npc_obj);
                     this.pano_obj.add(npc.npc_obj);
                     console.log(this);
                 }

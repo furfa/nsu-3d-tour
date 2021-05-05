@@ -6,9 +6,15 @@ html, body {
     overflow: hidden;
     background-color: #000;
 }
+
+#pano-image, .panolens-canvas{
+    z-index: 2;
+}
+
 #dialog {
-    position: absolute;
-    top: 80%;
+    position: fixed;
+    /*top: 90%;*/
+    bottom: 5%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -16,10 +22,31 @@ html, body {
     padding: 20px;
     box-sizing: border-box;
     pointer-events: none;
+    background-color: rgba(0,0,0, 0.7);
+    z-index: 1;
   }
 
 #typed {
     color: #fff;
     text-shadow: 0px 0px 2px #000;
     font-size: 24pt;
+}
+
+#actions > ol > li {
+    color: #dedede;
+    text-shadow: 0px 0px 2px #000;
+    font-size: 16pt;
+}
+#actions > ol > li:hover {
+    color: #ffffff;
+    text-shadow: 0px 0px 2px #000;
+    font-size: 28pt;
+}
+
+#pano-image > div:nth-child(3){
+    position: absolute;
+    top:5%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }

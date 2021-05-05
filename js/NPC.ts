@@ -4,8 +4,15 @@ import * as PANOLENS from "panolens";
 import {type} from "./functions";
 
 
-export class NPC{
-    constructor(name, path){
+export class NPC implements NPCInterface {
+    name;
+    path;
+    replicas;
+    npc_obj: THREE.Scene;
+    loader: GLTFLoader;
+    replica_i: number;
+
+    constructor(name : string, path : string, replicas: NPCReplicaInterface[] = npcReplicasExample) {
         this.name = `npc_${name}`;
         this.npc_obj = null;
         this.path = path;
@@ -27,11 +34,9 @@ export class NPC{
 
         if(this.path.endsWith(".gltf")) await this.load_GLTF();
         else console.log("Can't load npc model");
-
-        return
     }
 
-    async load_GLTF() {
+    async load_GLTF() : Promise<void> {
         this.loader = new GLTFLoader();
         await new Promise(
             resolve => this.loader.load(this.path, (gltf) => {
@@ -45,23 +50,30 @@ export class NPC{
             ),
         );
     }
-    move(vec){
+    move(vec: THREE.Vector3) {
         if(!this.npc_obj) return;
         this.npc_obj.position.set(vec.x,vec.y,vec.z);
     }
     handleClick() {
-        console.log(`You clicked on Me!\n (im: ${this.name} !!!)`);
+        console.log(`You clicked on me!\n (im: ${this.name})`);
 
-        let replic;
-        if(this.replic_i < this.replics.length){
-            replic =  this.replics[this.replic_i] ;
-            this.replic_i++;
-        }else{
-            replic =  "Продолжай экскурсию";
-        }
+        // Old way:
 
+        // let replica: string;
+        // if(this.replica_i < this.replicas.length) {
+        //     replica =  this.replicas[this.replica_i];
+        //     this.replica_i++;
+        // }
+        // else {
+        //     replica =  "Продолжай экскурсию";
+        // }
+        //
+        // type([replica]);
 
-        type([replic]);
+        // New way:
+
+        let replicas: NPCReplicaInterface[] = this.replicas;
+        typeDialog(replicas);
     }
 
 
