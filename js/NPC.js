@@ -1,5 +1,8 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import * as PANOLENS from "panolens";
+import {type} from "./functions";
+
 
 export class NPC{
     constructor(name, path){
@@ -28,16 +31,16 @@ export class NPC{
         return
     }
 
-    async load_GLTF(){
+    async load_GLTF() {
         this.loader = new GLTFLoader();
         await new Promise(
-            resolve => this.loader.load(this.path, (gltf)=>{
-                this.npc_obj = gltf.scene;
-                this.npc_obj.scale.set(1,1,1);
-                this.npc_obj.position.set(20, 0, 40);
-                this.npc_obj.name = `npc_${this.name}`;
-                console.log(`loaded GLTF ${this.npc_obj.name}`);
-                resolve();
+            resolve => this.loader.load(this.path, (gltf) => {
+                    this.npc_obj = gltf.scene;
+                    this.npc_obj.scale.set(1, 1, 1);
+                    this.npc_obj.position.set(20, 0, 40);
+                    this.npc_obj.name = this.name;
+                    console.log(`loaded GLTF ${this.name}`);
+                    resolve();
                 }
             ),
         );
