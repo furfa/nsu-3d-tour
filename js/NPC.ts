@@ -1,8 +1,32 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import * as PANOLENS from "panolens";
-import {type} from "./functions";
+import * as PANOLENS from 'panolens';
+import {type, typeDialog} from './functions';
 
+
+export interface NPCReplicaInterface {
+    text:string,
+    options: string[],
+    order: number[]
+}
+const npcReplicasExample = [
+    {
+        text: "Hello!",
+        options: ["Say it again", "Bye!"],
+        order: [0, 1]
+    },
+    {
+        text: "Bye!",
+        options: [],
+        order: [-1]
+    }
+]
+
+interface  NPCInterface {
+    name: string;
+    path: string;
+    replicas: NPCReplicaInterface[];
+}
 
 export class NPC implements NPCInterface {
     name;
@@ -17,17 +41,11 @@ export class NPC implements NPCInterface {
         this.npc_obj = null;
         this.path = path;
         this.loader = null;
-
-        this.replics = [
-            "Привет ты находишься в НГУ^100(ЭУ)",
-            "иди нахуй",
-            "asdasdasdasd",
-            "sadasdsad",
-        ];
-        this.replic_i = 0;
+        this.replicas = replicas;
+        this.replica_i = 0;
     }
 
-    async load(){
+    async load() : Promise<void> {
         if(this.npc_obj) return;
 
         console.log("loading npc model")
@@ -38,8 +56,8 @@ export class NPC implements NPCInterface {
 
     async load_GLTF() : Promise<void> {
         this.loader = new GLTFLoader();
-        await new Promise(
-            resolve => this.loader.load(this.path, (gltf) => {
+        await new Promise<void>(
+            (resolve) => this.loader.load(this.path, (gltf) => {
                     this.npc_obj = gltf.scene;
                     this.npc_obj.scale.set(1, 1, 1);
                     this.npc_obj.position.set(20, 0, 40);
@@ -75,8 +93,6 @@ export class NPC implements NPCInterface {
         let replicas: NPCReplicaInterface[] = this.replicas;
         typeDialog(replicas);
     }
-
-
 
 }
 

@@ -16,8 +16,8 @@ import {init, MAIN_NPC, panorams} from "./init";
 
 const viewer = init();
 
-viewer.addUpdateCallback(()=>{
-    if(MAIN_NPC.npc_obj){
+viewer.addUpdateCallback(() => {
+    if(MAIN_NPC.npc_obj) {
         // console.log("rotate");
         MAIN_NPC.npc_obj.rotation.y += 0.05;
         // MAIN_NPC.npc_obj.position.y += 0.3;
@@ -25,8 +25,6 @@ viewer.addUpdateCallback(()=>{
         // npc_obj.scene.rotation.x += 0.02;
     }
 });
-
-
 
 const test_panorama = panorams[0].pano_obj;
 
@@ -38,7 +36,7 @@ let controlItemCube = {
     backgroundImage: 'url(http://i40.tinypic.com/1531w79.jpg)'
   },
   
-  onTap: function(){
+  onTap: function() {
     viewer.tweenControlCenterByObject( cube );
     console.log("TAP");
   }
