@@ -141,6 +141,9 @@ export class NPC implements NPCInterface {
         typeDialog(this.replicas); // Start dialogue
     }
 
+    animatedMovement(pos: THREE.Vector3) {
+
+    }
 
 }
 

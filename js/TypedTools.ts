@@ -1,18 +1,20 @@
-import Typed from "typed.js";
-import {NPC, NPCReplicaInterface} from './NPC';
+import Typed from "typed.js"
+import TWEEN from '@tweenjs/tween.js';
+import { NPCReplicaInterface } from './NPC'
 
 // Globals for configuring typing
-let typed: Typed;
 let typeSpeed: number = 0;
-
+let typedMain: Typed;
 let typedOptions: Typed[] = [];
 
-export function type(strings: string[]) : void {
+// export function type
+
+export function typeMain(strings: string[]) : void {
     console.log(strings);
 
-    typed && clearTyped();
-
-    typed = new Typed('#typed', {
+    typedMain && clearDialogue();
+    showActionBox();
+    typedMain = new Typed('#typed', {
         strings: ["",...strings],
         typeSpeed: typeSpeed,
         showCursor: false,
@@ -33,6 +35,7 @@ function typeOption(options: string[], selector: string) : void {
 
 
 let actionsDiv;
+let dialogueDiv;
 let optionsOl;
 
 async function sleep(ms){
@@ -45,8 +48,6 @@ export async function createOptions(options:string[]) : Promise<string> {
     actionsDiv = document.getElementById("actions");
     optionsOl = document.createElement("ol");
     actionsDiv.appendChild(optionsOl);
-
-    let selected = null;
 
     let promises = [];
 
@@ -97,7 +98,7 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) {
     clearOptions();
     let replica: NPCReplicaInterface = replicas[0];
     while (true) {
-        type([replica.text]);
+        typeMain([replica.text]);
         renderOptions(replica.options);
         let selectedOp : any = await createOptions(replica.options);
         if (selectedOp == null) {
@@ -109,6 +110,43 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) {
     }
 }
 
-function clearTyped() : void {
-    typed.destroy();
+function clearDialogue() : void {
+    typedMain.destroy();
+}
+
+export function hideActionBox() : void {
+    dialogueDiv || (dialogueDiv = document.getElementById("dialog"));
+    // dialogueDiv.classList.add("hidden");
+
+    let cssProp = {
+        opacity:dialogueDiv.style.opacity,
+    };
+
+    let tweenTo = new TWEEN.Tween(cssProp)
+        .to({
+            opacity:0.0,
+        }, 300)
+        .easing(TWEEN.Easing.Elastic.InOut)
+        .onUpdate(()=>{
+            dialogueDiv.style.opacity = cssProp.opacity;
+        });
+    tweenTo.start(); // Start animation
+}
+
+function showActionBox() : void {
+    dialogueDiv || (dialogueDiv = document.getElementById("dialog"));
+    // dialogueDiv.classList.remove("hidden");
+    let cssProp = {
+        opacity:0.0,
+    };
+
+    let tweenTo = new TWEEN.Tween(cssProp)
+        .to({
+            opacity:1.0,
+        }, 300)
+        .easing(TWEEN.Easing.Elastic.InOut)
+        .onUpdate(()=>{
+            dialogueDiv.style.opacity = cssProp.opacity;
+        });
+    tweenTo.start(); // Start animation
 }

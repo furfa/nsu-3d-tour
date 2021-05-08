@@ -11,6 +11,7 @@ interface PanoramaItemInterface {
     transition_edges: { dest: string, pos: THREE.Vector3 }[];
     enter_look_direction: THREE.Vector3;
     npc_list: {npc: NPC, pos: THREE.Vector3}[];
+    lightPos: THREE.Vector3[];
 }
 
 export let current_location: string = "";
@@ -20,6 +21,7 @@ export class PanoramaItem implements PanoramaItemInterface {
     transition_edges;
     enter_look_direction;
     npc_list;
+    lightPos;
     pano_obj: PANOLENS.Panorama;
     first_look: boolean;
     viewer:PANOLENS.Viewer;
@@ -29,7 +31,8 @@ export class PanoramaItem implements PanoramaItemInterface {
           pano_url,
           transition_edges = [],
           enter_look_direction = new THREE.Vector3(0,0,0),
-          npc_list
+          npc_list,
+          lightPos = []
         } : PanoramaItemInterface) {
 
         this.name = name;
@@ -40,6 +43,7 @@ export class PanoramaItem implements PanoramaItemInterface {
 
         this.first_look = true;
         this.npc_list = npc_list;
+        this.lightPos = lightPos;
 
         this.initScene();
     }

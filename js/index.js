@@ -4,9 +4,8 @@ import {init, MAIN_NPC, panorams} from "./init";
 import TWEEN from '@tweenjs/tween.js';
 
 // TODO:
-// - Add NPC shape animation (smoothly make NPC bigger)
 // - Make dialogues more colorful
-// - Refactor functions.ts file-name
+// - add configs
 
 const viewer = init();
 
@@ -31,7 +30,6 @@ viewer.addUpdateCallback(() => {
         // );
 
         // MAIN_NPC.npc_obj.position.y += 0.3;
-
         // npc_obj.scene.rotation.x += 0.02;
     }
 });

@@ -5,7 +5,7 @@ import * as THREE from "three";
 import * as PANOLENS from "panolens";
 
 // There is one more (and better) way how to do this
-// But it's for fucked nerds
+// But it's for nerds
 // @ts-ignore
 import pano1_url from '../img/pano1.jpg';
 // @ts-ignore
@@ -40,12 +40,13 @@ export function init() : PANOLENS.Viewer {
 
     const welcome_message: string = "para obtener instrucciones haga clic en Steve";
     panorams[0].pano_obj.addEventListener( 'load', () => {
-        type([welcome_message]);
+        typeMain([welcome_message]);
     });
-
 
     return viewer;
 }
+
+// TODO: Rewrite this hardcode to reading configs
 
 export const MAIN_NPC = new NPC("steve", "../models/scene.gltf");
 
@@ -61,7 +62,8 @@ export const panorams = [
         npc_list: [{
             npc: MAIN_NPC,
             pos: new THREE.Vector3(20, 0, 40)
-        }]
+        }],
+        lightPos: [new THREE.Vector3(30, 0, 0)]
     }),
     new PanoramaItem({
         name: "after_cava_4f_1b",
@@ -74,6 +76,7 @@ export const panorams = [
         npc_list: [{
             npc: MAIN_NPC,
             pos: new THREE.Vector3(100, 0, 40)
-        }]
+        }],
+        lightPos: []
     }),
 ];
