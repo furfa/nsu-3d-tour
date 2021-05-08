@@ -13,13 +13,24 @@ export function type(strings: string[]) : void {
     typed = new Typed('#typed', {
         strings: ["",...strings],
         typeSpeed: typeSpeed,
+        showCursor: false,
     });
 }
 
-export  function typeDialog(replicas: NPCReplicaInterface[]) {
-    type([replicas[0].text]);
-    // TODO:
-    // Interactive dialogues
+export async function typeDialog(replicas: NPCReplicaInterface[]) {
+    clearOptions();
+    let replica: NPCReplicaInterface = replicas[0];
+    while (true) {
+        type([replica.text]);
+        renderOptions(replica.options);
+        let selectedOp : any = await createOptions(replica.options);
+        if (selectedOp == null) {
+            selectedOp = 0;
+        }
+        let order = replica.order[selectedOp];
+        if (order == -1) break;
+        replica = replicas[order];
+    }
 }
 
 function clearTyped() : void {

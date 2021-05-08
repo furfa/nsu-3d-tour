@@ -28,18 +28,18 @@ viewer.addUpdateCallback(() => {
 
 const test_panorama = panorams[0].pano_obj;
 
-/*
 // Add control button
 
-let controlItemCube = {
-  style: {
-    backgroundImage: 'url(http://i40.tinypic.com/1531w79.jpg)'
-  },
-  
-  onTap: function() {
-    viewer.tweenControlCenterByObject( cube );
-    console.log("TAP");
-  }
-};
-viewer.appendControlItem(controlItemCube);
-*/
+// let controlItemCube = {
+//   style: {
+//     backgroundImage: 'url(http://i40.tinypic.com/1531w79.jpg)'
+//   },
+//
+//   onTap: function() {
+//     // viewer.tweenControlCenterByObject( cube );
+//     console.log("TAP");
+//   }
+// };
+// viewer.appendControlItem(controlItemCube);
+
+// GLobal

@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as PANOLENS from 'panolens';
 import {type, typeDialog} from './functions';
 
+import TWEEN from '@tweenjs/tween.js';
 
 export interface NPCReplicaInterface {
     text:string,
@@ -74,6 +75,26 @@ export class NPC implements NPCInterface {
     }
     handleClick() {
         console.log(`You clicked on me!\n (im: ${this.name})`);
+
+
+        // Setup the animation loop.
+    // function animate(time) {
+    //     requestAnimationFrame(animate);
+    //     TWEEN.update(time);
+    // }
+    // requestAnimationFrame(animate);
+    var coords = { x: 1, y: 1, z:1 }; // Start at (0, 0)
+    var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
+      .to({ x: 2, y: 2, z: 2 }, 1000) // Move to (300, 200) in 1 second.
+      .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+        .onUpdate(function() { // Called after tween.js updates 'coords'.
+            this.npc_obj.scale.set(
+                coords.x,
+                coords.y,
+                coords.z
+                );
+        })
+        .start(); // Start the tween immediately.
 
         // Old way:
 
