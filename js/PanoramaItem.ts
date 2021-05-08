@@ -1,7 +1,8 @@
 import * as PANOLENS from "panolens";
 import * as THREE from "three";
-import { NPC } from './NPC';
-import { addALight } from "./SceneFunctions";
+import {NPC} from "./NPC";
+import {addALight, addAPointLight, addFloor} from "./SceneFunctions";
+import { hideActionBox } from "./TypedTools"
 
 
 interface PanoramaItemInterface {
@@ -40,48 +41,7 @@ export class PanoramaItem implements PanoramaItemInterface {
         this.first_look = true;
         this.npc_list = npc_list;
 
-        addALight(this.pano_obj);
-
-        // Events
-
-        // Enter event
-        this.pano_obj.addEventListener('enter', () => {
-            current_location = this.name;
-            console.log(`entering "${current_location}"`);
-            this.loadNPCs();
-            if(this.first_look) {
-                this.viewer.tweenControlCenter(this.enter_look_direction, 0);
-                console.log(`Looking at ${this.enter_look_direction}`)
-                this.first_look = false;
-            }
-
-            this.moveNPCs();
-            console.log(this);
-        });
-
-        // Leave event
-        this.pano_obj.addEventListener('leave', () => {
-           console.log(`leave ${this.name}`);
-
-           console.log(`NPCs left: ${this.npc_list} (should be empty)`);
-        });
-
-        // Click event
-        this.pano_obj.addEventListener( 'click', ( event ) => {
-            if ( event.intersects.length > 0 ) {
-              console.log(event);
-
-              let intersect : THREE.Mesh = event.intersects[ 0 ].object;
-
-              if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ) {
-                  let name: string = this.detectNPCName(intersect);
-                  for(let {npc, pos} of this.npc_list) {
-                      if(npc.name === name) npc.handleClick();
-                  }
-              }
-            }
-        });
-
+        this.initScene();
     }
 
     detectNPCName(obj: THREE.Mesh|any) : string {
@@ -114,5 +74,63 @@ export class PanoramaItem implements PanoramaItemInterface {
         for(let {npc, pos} of this.npc_list) {
             npc.move(pos);
         }
+    }
+
+    initScene() {
+
+
+        // Enter event
+        this.pano_obj.addEventListener('enter', () => {
+
+            current_location = this.name;
+            console.log(`entering "${current_location}"`);
+            this.loadNPCs();
+            if(this.first_look) {
+                this.viewer.tweenControlCenter(this.enter_look_direction, 0);
+                console.log(`Looking at ${this.enter_look_direction}`);
+
+                // adding objects
+
+                addALight(this.pano_obj);
+                for (let position of this.lightPos) {
+                    addAPointLight(this.pano_obj, position);
+                }
+
+                addFloor(this.pano_obj);
+                this.first_look = false;
+            }
+
+            this.moveNPCs();
+            console.log(this);
+        });
+
+        // Leave event
+        this.pano_obj.addEventListener('leave', () => {
+           console.log(`leave ${this.name}`);
+           console.log(`NPCs left: ${this.npc_list} (should be empty)`);
+        });
+
+        // Click event
+        this.pano_obj.addEventListener( 'click', ( event ) => {
+            if ( event.intersects.length > 0 ) {
+              console.log(event);
+
+              let intersect : THREE.Mesh = event.intersects[ 0 ].object;
+
+              if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ) {
+                  let name: string = this.detectNPCName(intersect);
+
+                  for(let {npc, pos} of this.npc_list) {
+                      if(npc.name === name) {
+                          npc.handleClick();
+                      }
+                  }
+              }
+            }else{
+                hideActionBox();
+                console.log("click not to NPC");
+            }
+        });
+
     }
 }

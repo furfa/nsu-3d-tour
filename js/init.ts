@@ -1,4 +1,4 @@
-import {type} from "./functions";
+import {typeMain} from "./TypedTools";
 import {NPC} from "./NPC";
 import {PanoramaItem} from "./PanoramaItem";
 import * as THREE from "three";
@@ -38,7 +38,7 @@ export function init() : PANOLENS.Viewer {
         }
     }
 
-    const welcome_message: string = "HELL'o fucker!";
+    const welcome_message: string = "para obtener instrucciones haga clic en Steve";
     panorams[0].pano_obj.addEventListener( 'load', () => {
         type([welcome_message]);
     });

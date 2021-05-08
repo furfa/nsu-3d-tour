@@ -1,7 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import * as PANOLENS from 'panolens';
-import {type, typeDialog} from './functions';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {typeDialog} from './TypedTools';
 
 import TWEEN from '@tweenjs/tween.js';
 
@@ -57,6 +56,7 @@ export class NPC implements NPCInterface {
     npc_obj: THREE.Scene;
     loader: GLTFLoader;
     replica_i: number;
+    usualScale: {x: number, y:number, z:number};
 
     constructor(name : string, path : string, replicas: NPCReplicaInterface[] = npcReplicasExample) {
         this.name = `npc_${name}`;
@@ -65,6 +65,11 @@ export class NPC implements NPCInterface {
         this.loader = null;
         this.replicas = replicas;
         this.replica_i = 0;
+        this.usualScale = {
+            x : 0.8,
+            y : 0.8,
+            z : 0.8,
+        }
     }
 
     async load() : Promise<void> {
@@ -81,7 +86,7 @@ export class NPC implements NPCInterface {
         await new Promise<void>(
             (resolve) => this.loader.load(this.path, (gltf) => {
                     this.npc_obj = gltf.scene;
-                    this.npc_obj.scale.set(1, 1, 1);
+                    this.npc_obj.scale.set(this.usualScale.x, this.usualScale.y, this.usualScale.z);
                     this.npc_obj.position.set(20, 0, 40);
                     this.npc_obj.name = this.name;
                     console.log(`loaded GLTF ${this.name}`);
@@ -97,27 +102,41 @@ export class NPC implements NPCInterface {
     handleClick() {
         console.log(`You clicked on me!\n (im: ${this.name})`);
 
-
-        // Setup the animation loop.
-    // function animate(time) {
-    //     requestAnimationFrame(animate);
-    //     TWEEN.update(time);
-    // }
-    // requestAnimationFrame(animate);
-
-    //    ALEXANDER WRITE THIS CODE:
-    // var coords = { x: 1, y: 1, z:1 }; // Start at (0, 0)
-    // var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
-    //   .to({ x: 2, y: 2, z: 2 }, 1000) // Move to (300, 200) in 1 second.
-    //   .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-    //     .onUpdate(function() { // Called after tween.js updates 'coords'.
-    //         this.npc_obj.scale.set(
-    //             coords.x,
-    //             coords.y,
-    //             coords.z
-    //             );
-    //     })
-    //     .start(); // Start the tween immediately.
+        let scale = {
+            x: this.usualScale.x,
+            y: this.usualScale.y,
+            z: this.usualScale.z
+        };
+        let tweenTo = new TWEEN.Tween(scale)
+            .to({
+                x: this.usualScale.x * 1.2,
+                y: this.usualScale.y * 1.2,
+                z: this.usualScale.z * 1.2
+            }, 300)
+            .easing(TWEEN.Easing.Elastic.InOut)
+            .onUpdate(()=>{
+                this.npc_obj.scale.set(
+                scale.x,
+                scale.y,
+                scale.z
+                );
+            });
+        let tweenBack = new TWEEN.Tween(scale)
+            .to({
+                x: this.usualScale.x,
+                y: this.usualScale.y,
+                z: this.usualScale.z
+            }, 300)
+            .easing(TWEEN.Easing.Elastic.InOut)
+            .onUpdate(()=>{
+                this.npc_obj.scale.set(
+                scale.x,
+                scale.y,
+                scale.z
+                );
+            });
+        tweenTo.chain(tweenBack);
+        tweenTo.start(); // Start animation chain
 
         typeDialog(this.replicas); // Start dialogue
     }

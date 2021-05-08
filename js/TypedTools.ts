@@ -23,7 +23,7 @@ function typeOption(options: string[], selector: string) : void {
     console.log('options: ', options);
     let typedOption;
 
-    typedOption = new Typed('#'+selector, {
+    typedOption = new Typed(`#${selector}`, {
         strings: ["",...options],
         typeSpeed: typeSpeed,
         showCursor: false,
