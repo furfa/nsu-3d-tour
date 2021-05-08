@@ -12,12 +12,33 @@ export interface NPCReplicaInterface {
 }
 const npcReplicasExample = [
     {
-        text: "Hello!",
-        options: ["Say it again", "Bye!"],
-        order: [0, 1]
+        text: "hola, amigo!",
+        options: ["hola, hombre!", "no eres mi amigo, liendres cúbico"],
+        order: [1, 4]
     },
     {
-        text: "Bye!",
+        text: "Bienvenido a NSU,\n" +
+            "¿qué planeas hacer?",
+        options: ["tengo mucha hambre.", "estoy aprendiendo aquí"],
+        order: [2, 3]
+    },
+    {
+        text: "maravilloso!",
+        options: ["sí, tengo que irme"],
+        order: [5]
+    },
+    {
+        text: "desconocer...",
+        options: ["nos conoceremos, adiós."],
+        order: [5]
+    },
+    {
+        text: "¿por qué es tan grosero?..",
+        options: [],
+        order: [5]
+    },
+    {
+        text: "nos vemos",
         options: [],
         order: [-1]
     }
@@ -111,8 +132,7 @@ export class NPC implements NPCInterface {
 
         // New way:
 
-        let replicas: NPCReplicaInterface[] = this.replicas;
-        typeDialog(replicas);
+        typeDialog(this.replicas);
     }
 
 }
