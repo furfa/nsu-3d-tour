@@ -104,36 +104,24 @@ export class NPC implements NPCInterface {
     //     TWEEN.update(time);
     // }
     // requestAnimationFrame(animate);
-    var coords = { x: 1, y: 1, z:1 }; // Start at (0, 0)
-    var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
-      .to({ x: 2, y: 2, z: 2 }, 1000) // Move to (300, 200) in 1 second.
-      .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-        .onUpdate(function() { // Called after tween.js updates 'coords'.
-            this.npc_obj.scale.set(
-                coords.x,
-                coords.y,
-                coords.z
-                );
-        })
-        .start(); // Start the tween immediately.
 
-        // Old way:
+    //    ALEXANDER WRITE THIS CODE:
+    // var coords = { x: 1, y: 1, z:1 }; // Start at (0, 0)
+    // var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
+    //   .to({ x: 2, y: 2, z: 2 }, 1000) // Move to (300, 200) in 1 second.
+    //   .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+    //     .onUpdate(function() { // Called after tween.js updates 'coords'.
+    //         this.npc_obj.scale.set(
+    //             coords.x,
+    //             coords.y,
+    //             coords.z
+    //             );
+    //     })
+    //     .start(); // Start the tween immediately.
 
-        // let replica: string;
-        // if(this.replica_i < this.replicas.length) {
-        //     replica =  this.replicas[this.replica_i];
-        //     this.replica_i++;
-        // }
-        // else {
-        //     replica =  "Продолжай экскурсию";
-        // }
-        //
-        // type([replica]);
-
-        // New way:
-
-        typeDialog(this.replicas);
+        typeDialog(this.replicas); // Start dialogue
     }
+
 
 }
 

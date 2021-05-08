@@ -36,7 +36,7 @@ let actionsDiv;
 let optionsOl;
 
 async function sleep(ms){
-    return new Promise((resolve, reject) => setTimeout(()=>{resolve()}, ms) );
+    return new Promise<void>((resolve, reject) => setTimeout(() => {resolve()}, ms) );
 }
 
 export async function createOptions(options:string[]) : Promise<string> {

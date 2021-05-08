@@ -10,9 +10,9 @@ import {PanoramaItem} from "./PanoramaItem.ts";
 import {init, MAIN_NPC, panorams} from "./init";
 
 // TODO:
-// - See: functions.ts
+// - Add NPC shape animation (smoothly make NPC bigger)
+// - Make dialogues more colorful
 // - Refactor functions.ts file-name
-// - Change design
 
 const viewer = init();
 
