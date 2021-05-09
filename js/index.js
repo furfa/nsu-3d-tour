@@ -5,8 +5,10 @@ import TWEEN from '@tweenjs/tween.js';
 import {calculateViewCoords, calculateViewRotation} from "./SceneFunctions";
 
 // TODO:
+// - add Fedoruk creeper
+// - make for async
 // - Make dialogues more colorful
-// - add configs
+// - add configs (see init.ts)
 
 const viewer = init();
 

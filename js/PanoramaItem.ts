@@ -63,8 +63,6 @@ export class PanoramaItem implements PanoramaItemInterface {
     }
 
     async loadNPCs() {
-        // TODO:
-        // - make for async
         for (let {npc, pos} of this.npc_list) {
             await npc.load();
             console.log(`adding npc ${npc.name} to panorama ${this.name}`);
