@@ -1,5 +1,6 @@
 import {typeMain} from "./TypedTools";
 import {NPC} from "./NPC";
+import {Food} from "./Food";
 import {PanoramaItem} from "./PanoramaItem";
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
@@ -49,6 +50,7 @@ export function init() : PANOLENS.Viewer {
 // TODO: Rewrite this hardcode to reading configs
 
 export const MAIN_NPC = new NPC("steve", "../models/scene.gltf");
+export const APPLE_FOOD = new Food("apple", "../models/scene.gltf");
 
 export const panorams = [
     new PanoramaItem({
@@ -62,6 +64,10 @@ export const panorams = [
         npc_list: [{
             npc: MAIN_NPC,
             pos: new THREE.Vector3(20, 0, 40)
+        },
+        {
+            npc: APPLE_FOOD,
+            pos: new THREE.Vector3(-20, 0, -40)
         }],
         lightPos: [new THREE.Vector3(30, 0, 0)]
     }),
