@@ -33,7 +33,7 @@ const npcReplicasExample = [
     },
     {
         text: "¿por qué es tan grosero?..",
-        options: [],
+        options: ["..."],
         order: [5]
     },
     {

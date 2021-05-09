@@ -27,6 +27,16 @@ export const addFloor = (pano_obj: PANOLENS.Panorama) => {
     pano_obj.add(plane);
     console.log("Floor plane is", plane);
     // debugger;
+}
 
+// Calculate coordinates of ellipse dot, by angle
+export function calculateViewCoords(angle: number): THREE.Vector3 { // (ellipse movement)
+    let a = 30;
+    let b = 30;
+    return new THREE.Vector3(-b * Math.sin(angle), -30, -a * Math.cos(angle));
+}
 
+// Calculate rotation to see dot from pos
+export function calculateViewRotation(dot: THREE.Vector3, pos: THREE.Vector3) {
+    return Math.atan2(dot.x - pos.x, dot.z - pos.z);
 }

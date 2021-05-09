@@ -2,6 +2,7 @@
 import {init, MAIN_NPC, panorams} from "./init";
 
 import TWEEN from '@tweenjs/tween.js';
+import {calculateViewCoords, calculateViewRotation} from "./SceneFunctions";
 
 // TODO:
 // - Make dialogues more colorful
@@ -10,25 +11,18 @@ import TWEEN from '@tweenjs/tween.js';
 const viewer = init();
 
 
-
 viewer.addUpdateCallback(() => {
     TWEEN.update();
 
-    if(MAIN_NPC.npc_obj) { // Just for fun
+    if(MAIN_NPC.npc_obj) { // Just for try something
 
-        // EXPERIMENTS WITH MOVEMENT ANIMATION:
-        // let angle = viewer.getControl().getAzimuthalAngle();
+        // Steve mirroring rotation:
+        let angle = viewer.getControl().getAzimuthalAngle();
+        let dot = calculateViewCoords(angle);
+        MAIN_NPC.npc_obj.rotation.y = calculateViewRotation(dot, MAIN_NPC.npc_obj.position);
+
+        // Just rotation:
         // MAIN_NPC.npc_obj.rotation.y += 0.05;
-        // let pos = {}
-        // let a = 100;
-        // let b = 150;
-        // pos.y = -20;
-        // pos.z = a * Math.cos(-angle);
-        // pos.x = b * Math.sin(-angle);
-        // MAIN_NPC.npc_obj.position.set(
-        //     pos.x, pos.y, pos.z
-        // );
-
         // MAIN_NPC.npc_obj.position.y += 0.3;
         // npc_obj.scene.rotation.x += 0.02;
     }
