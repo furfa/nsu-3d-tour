@@ -49,8 +49,9 @@ export function init() : PANOLENS.Viewer {
 
 // TODO: Rewrite this hardcode to reading configs
 
-export const MAIN_NPC = new NPC("steve", "../models/scene.gltf");
-export const APPLE_FOOD = new Food("apple", "../models/scene.gltf");
+// export const MAIN_NPC = new NPC("steve", "../models/steve/scene.gltf");
+export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
+export const APPLE_FOOD = new Food("apple", "../models/steve/scene.gltf");
 
 export const panorams = [
     new PanoramaItem({

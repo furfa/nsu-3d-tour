@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
 import {typeDialog} from './TypedTools';
 
 import TWEEN from '@tweenjs/tween.js';
@@ -54,7 +55,6 @@ export class NPC implements NPCInterface {
     path;
     replicas;
     npc_obj: THREE.Scene;
-    loader: GLTFLoader;
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
 
@@ -77,14 +77,15 @@ export class NPC implements NPCInterface {
 
         console.log("loading npc model")
 
-        if(this.path.endsWith(".gltf")) await this.load_GLTF();
+        if(this.path.endsWith(".gltf")) await this.loadGLTF();
+        else if(this.path.endsWith(".fbx")) await this.loadFBX();
         else console.log("Can't load npc model");
     }
 
-    async load_GLTF() : Promise<void> {
-        this.loader = new GLTFLoader();
+    async loadGLTF() : Promise<void> {
+        const loader = new GLTFLoader();
         await new Promise<void>((resolve) => {
-            this.loader.load(this.path, (gltf) => {
+            loader.load(this.path, (gltf) => {
                 this.npc_obj = gltf.scene;
                 this.npc_obj.scale.set(this.usualScale.x, this.usualScale.y, this.usualScale.z);
                 this.npc_obj.name = this.name;
@@ -98,6 +99,29 @@ export class NPC implements NPCInterface {
 
 
                 console.log(`loaded GLTF ${this.name}`);
+                resolve();
+            });
+        });
+    }
+    async loadFBX() : Promise<void> {
+        const loader = new FBXLoader();
+        await new Promise<void>((resolve) => {
+            loader.load(this.path, (fbx) => {
+                fbx.scale.setScalar(0.1);
+                fbx.traverse(c => {
+                    c.castShadow = true;
+                });
+
+                const anim: FBXLoader = new FBXLoader();
+                anim.setPath('../models/ded/');
+                anim.load('Doging Right.fbx', (anim) => {
+                    let _mixer = new THREE.AnimationMixer(fbx);
+                    const idle = _mixer.clipAction(anim.animations[0]);
+                    idle.play();
+                })
+
+                this.npc_obj = fbx;
+                // this._scene.add(fbx);
                 resolve();
             });
         });

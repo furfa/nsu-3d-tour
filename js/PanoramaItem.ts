@@ -67,6 +67,11 @@ export class PanoramaItem implements PanoramaItemInterface {
             await npc.load();
             console.log(`adding npc ${npc.name} to panorama ${this.name}`);
             this.pano_obj.add(npc.npc_obj);
+
+            let skeleton = new THREE.SkeletonHelper( npc.npc_obj );
+            skeleton.visible = true;
+            this.pano_obj.add(skeleton);
+
             console.log('panorama:', this);
         }
     }
