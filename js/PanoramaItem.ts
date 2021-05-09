@@ -62,15 +62,14 @@ export class PanoramaItem implements PanoramaItemInterface {
         this.viewer = viewer;
     }
 
-    loadNPCs() {
+    async loadNPCs() {
+        // TODO:
+        // - make for async
         for (let {npc, pos} of this.npc_list) {
-            npc.load().then(
-                () => {
-                    console.log(`adding npc ${npc.name} to panorama ${this.name}`);
-                    this.pano_obj.add(npc.npc_obj);
-                    console.log('panorama:', this);
-                }
-            );
+            await npc.load();
+            console.log(`adding npc ${npc.name} to panorama ${this.name}`);
+            this.pano_obj.add(npc.npc_obj);
+            console.log('panorama:', this);
         }
     }
 
@@ -88,7 +87,7 @@ export class PanoramaItem implements PanoramaItemInterface {
 
             current_location = this.name;
             console.log(`entering "${current_location}"`);
-            this.loadNPCs();
+            this.loadNPCs().then(() => this.moveNPCs());
             if(this.first_look) {
                 this.viewer.tweenControlCenter(this.enter_look_direction, 0);
                 console.log(`Looking at ${this.enter_look_direction}`);
@@ -104,7 +103,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 this.first_look = false;
             }
 
-            this.moveNPCs();
+
             console.log(this);
         });
 

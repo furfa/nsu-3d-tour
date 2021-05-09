@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
+import * as dat from 'dat.gui';
 
 export const addALight = (pano_obj: PANOLENS.Panorama) => {
     const aLight : THREE.AmbientLight = new THREE.AmbientLight(0x404040, 2);
@@ -22,9 +23,24 @@ export const addFloor = (pano_obj: PANOLENS.Panorama) => {
     material.transparent = true;
     material.opacity = 0.5;
     const plane = new THREE.Mesh( geometry, material );
+
     plane.position.set(0,-30,0);
     plane.rotation.x = Math.PI / 2;
+
+
     pano_obj.add(plane);
+    const gui = new dat.GUI();
+    const plane_position = gui.addFolder("plane_position");
+    plane_position.add(plane.position, 'x', -100, 100).name("position x");
+    plane_position.add(plane.position, 'y', -100, 100).name("position y");
+    plane_position.add(plane.position, 'z', -100, 100).name("position z");
+
+    const plane_rotation = gui.addFolder("plane_rotation");
+    plane_rotation.add(plane.rotation, 'x', -Math.PI, Math.PI, Math.PI/1000).name("rotation x");
+    plane_rotation.add(plane.rotation, 'y', -Math.PI, Math.PI, Math.PI/1000).name("rotation y");
+    plane_rotation.add(plane.rotation, 'z', -Math.PI, Math.PI, Math.PI/1000).name("rotation z");
+
+
     console.log("Floor plane is", plane);
     // debugger;
 }

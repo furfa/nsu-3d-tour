@@ -83,17 +83,24 @@ export class NPC implements NPCInterface {
 
     async load_GLTF() : Promise<void> {
         this.loader = new GLTFLoader();
-        await new Promise<void>(
-            (resolve) => this.loader.load(this.path, (gltf) => {
-                    this.npc_obj = gltf.scene;
-                    this.npc_obj.scale.set(this.usualScale.x, this.usualScale.y, this.usualScale.z);
-                    this.npc_obj.position.set(20, 0, 40);
-                    this.npc_obj.name = this.name;
-                    console.log(`loaded GLTF ${this.name}`);
-                    resolve();
-                }
-            ),
-        );
+        await new Promise<void>((resolve) => {
+            this.loader.load(this.path, (gltf) => {
+                this.npc_obj = gltf.scene;
+                this.npc_obj.scale.set(this.usualScale.x, this.usualScale.y, this.usualScale.z);
+                this.npc_obj.name = this.name;
+
+                // Тени хз работают или нет
+                this.npc_obj.traverse( function ( object: THREE.Mesh ) {
+
+                    if ( object.isMesh ) object.castShadow = true;
+
+                } );
+
+
+                console.log(`loaded GLTF ${this.name}`);
+                resolve();
+            });
+        });
     }
     move(vec: THREE.Vector3) {
         if(!this.npc_obj) return;
