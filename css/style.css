@@ -44,6 +44,29 @@ html, body {
     font-weight: bold;
 }
 
+/* Copied from actions */
+#food-bar {
+    position: fixed;
+    bottom: 25%;
+}
+#food-bar > ol{
+    display: flex;
+    min-width: 700px;
+}
+
+#food-bar > ol > li {
+    color: #dedede;
+    text-shadow: 0px 0px 2px #000;
+    font-size: 16pt;
+    list-style-type: none;
+}
+#food-bar > ol > li:hover {
+    color: #72c81e;
+    text-shadow: 0px 0px 2px #000;
+    font-size: 20pt;
+}
+/* Copied from actions */
+
 #actions > ol{
  min-width: 700px;
 }

@@ -62,7 +62,6 @@ export class NPC implements NPCInterface {
         this.name = `npc_${name}`;
         this.npc_obj = null;
         this.path = path;
-        this.loader = null;
         this.replicas = replicas;
         this.replica_i = 0;
         this.usualScale = {
@@ -120,6 +119,7 @@ export class NPC implements NPCInterface {
                     idle.play();
                 })
 
+                // Something strange:
                 this.npc_obj = fbx;
                 // this._scene.add(fbx);
                 resolve();

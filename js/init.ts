@@ -11,6 +11,7 @@ import * as PANOLENS from "panolens";
 import pano1_url from '../img/pano1.jpg';
 // @ts-ignore
 import pano2_url from '../img/pano2.jpg';
+import {StatusBar} from "./StatusBar";
 
 export function init() : PANOLENS.Viewer {
     const panoDiv: HTMLElement|null = document.getElementById("pano-image");
@@ -49,9 +50,12 @@ export function init() : PANOLENS.Viewer {
 
 // TODO: Rewrite this hardcode to reading configs
 
-// export const MAIN_NPC = new NPC("steve", "../models/steve/scene.gltf");
-export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
+export const MAIN_NPC = new NPC("steve", "../models/steve/scene.gltf");
+// export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
 export const APPLE_FOOD = new Food("apple", "../models/steve/scene.gltf");
+const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 4);
+STATUS_BAR.load();
+STATUS_BAR.increase(4);
 
 export const panorams = [
     new PanoramaItem({

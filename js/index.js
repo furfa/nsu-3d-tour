@@ -7,6 +7,7 @@ import {calculateViewCoords, calculateViewRotation} from "./SceneFunctions";
 // TODO:
 // - add Fedoruk creeper
 // - make for async
+// - debug fbx loader
 // - Make dialogues more colorful
 // - add configs (see init.ts)
 
