@@ -57,7 +57,7 @@ export class NPC implements NPCInterface {
     name;
     path;
     replicas;
-    npc_obj: THREE.Object3D;
+    npc_obj: THREE.Object3D|any;
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
 
@@ -122,7 +122,7 @@ export class NPC implements NPCInterface {
 
                 const anim: FBXLoader = new FBXLoader();
                 anim.setPath('../models/ded/');
-                anim.load('Doging Right.fbx', (anim) => {
+                anim.load('Doging Right.fbx', (anim:any) => {
                     let _mixer = new THREE.AnimationMixer(fbx);
                     const idle = _mixer.clipAction(anim.animations[0]);
                     idle.play();

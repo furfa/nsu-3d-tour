@@ -14,15 +14,23 @@ import pano1_url from '../img/pano1.jpg';
 import pano2_url from '../img/pano2.jpg';
 import {StatusBar} from "./StatusBar";
 
+declare global{
+    interface Window{
+        DEBUG:boolean;
+        GUI: dat.GUI;
+    }
+}
+
 export function init() : PANOLENS.Viewer {
     const panoDiv: HTMLElement|null = document.getElementById("pano-image");
+
     const viewer: PANOLENS.Viewer = new PANOLENS.Viewer({
         container: panoDiv,
         output: 'console',
     });
-
     // TODO:
     // - расширить интерфейс окна для добавления новых проперти
+
     window.DEBUG = true;
 
     if(window.DEBUG)
@@ -60,7 +68,7 @@ export function init() : PANOLENS.Viewer {
 
 export const MAIN_NPC = new NPC("steve", "../models/steve/scene.gltf");
 // export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
-export const APPLE_FOOD = new Food("apple", "../models/steve/scene.gltf");
+export const APPLE_FOOD = new Food("apple", "../models/apple/scene.gltf");
 const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 4);
 STATUS_BAR.load();
 STATUS_BAR.increase(4);
@@ -80,7 +88,7 @@ export const panorams = [
         },
         {
             npc: APPLE_FOOD,
-            pos: new THREE.Vector3(-20, 0, -40)
+            pos: new THREE.Vector3(-2, -2, -3.5)
         }],
         lightPos: [new THREE.Vector3(30, 0, 0)]
     }),
