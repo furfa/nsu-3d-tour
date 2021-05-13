@@ -59,7 +59,7 @@ export class StatusBar implements StatusBarInterface {
 
     addCell() {
         let li = document.createElement("li");
-        li.innerText = '[food]';
+        li.innerHTML = '<img src="../img/hunger.png" ></img>';
         this.onPage.ol.appendChild(li);
         this.onPage.cells.push(li);
     }

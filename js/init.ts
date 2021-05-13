@@ -4,6 +4,7 @@ import {Food} from "./Food";
 import {PanoramaItem} from "./PanoramaItem";
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
+import * as dat from 'dat.gui';
 
 // There is one more (and better) way how to do this
 // But it's for nerds
@@ -19,6 +20,13 @@ export function init() : PANOLENS.Viewer {
         container: panoDiv,
         output: 'console',
     });
+
+    // TODO:
+    // - расширить интерфейс окна для добавления новых проперти
+    window.DEBUG = true;
+
+    if(window.DEBUG)
+        window.GUI = new dat.GUI();
 
     let objects: {[key: string] : PANOLENS.Panorama;} = {};
 

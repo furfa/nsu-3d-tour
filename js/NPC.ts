@@ -2,8 +2,11 @@ import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
 import {typeDialog} from './TypedTools';
+import {addDebugGUI} from './SceneFunctions';
 
 import TWEEN from '@tweenjs/tween.js';
+
+
 
 export interface NPCReplicaInterface {
     text:string,
@@ -12,7 +15,7 @@ export interface NPCReplicaInterface {
 }
 const npcReplicasExample = [
     {
-        text: "hola, amigo!",
+        text: "привет! меня зовут ****! сегодня я тебе расскажу о лучшем факультете Новосибирского государственного университета-механико-математическом! Сейчас мы находимся на 4 этаже. пойдем, я тебе расскажу как тут всё устроено. ",
         options: ["hola, hombre!", "no eres mi amigo, liendres cúbico"],
         order: [1, 4]
     },
@@ -54,7 +57,7 @@ export class NPC implements NPCInterface {
     name;
     path;
     replicas;
-    npc_obj: THREE.Scene;
+    npc_obj: THREE.Object3D;
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
 
@@ -76,8 +79,14 @@ export class NPC implements NPCInterface {
 
         console.log("loading npc model")
 
-        if(this.path.endsWith(".gltf")) await this.loadGLTF();
-        else if(this.path.endsWith(".fbx")) await this.loadFBX();
+        if(this.path.endsWith(".gltf")){
+            await this.loadGLTF();
+            this.addToControlPanel();
+        }
+        else if(this.path.endsWith(".fbx")) {
+            await this.loadFBX();
+            this.addToControlPanel();
+        }
         else console.log("Can't load npc model");
     }
 
@@ -174,6 +183,10 @@ export class NPC implements NPCInterface {
 
     animatedMovement(pos: THREE.Vector3) {
 
+    }
+
+    addToControlPanel(){
+        addDebugGUI(this.npc_obj, this.name);
     }
 
 }

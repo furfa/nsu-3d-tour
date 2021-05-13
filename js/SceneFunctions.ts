@@ -29,16 +29,7 @@ export const addFloor = (pano_obj: PANOLENS.Panorama) => {
 
 
     pano_obj.add(plane);
-    const gui = new dat.GUI();
-    const plane_position = gui.addFolder("plane_position");
-    plane_position.add(plane.position, 'x', -100, 100).name("position x");
-    plane_position.add(plane.position, 'y', -100, 100).name("position y");
-    plane_position.add(plane.position, 'z', -100, 100).name("position z");
-
-    const plane_rotation = gui.addFolder("plane_rotation");
-    plane_rotation.add(plane.rotation, 'x', -Math.PI, Math.PI, Math.PI/1000).name("rotation x");
-    plane_rotation.add(plane.rotation, 'y', -Math.PI, Math.PI, Math.PI/1000).name("rotation y");
-    plane_rotation.add(plane.rotation, 'z', -Math.PI, Math.PI, Math.PI/1000).name("rotation z");
+    addDebugGUI(plane, "plane");
 
 
     console.log("Floor plane is", plane);
@@ -50,6 +41,20 @@ export function calculateViewCoords(angle: number): THREE.Vector3 { // (ellipse 
     let a = 30;
     let b = 30;
     return new THREE.Vector3(-b * Math.sin(angle), -30, -a * Math.cos(angle));
+}
+
+export function addDebugGUI(obj: THREE.Object3D, name:string){
+    if(window.DEBUG) {
+        const gui = window.GUI;
+        const plane_folder = gui.addFolder(`${name}`);
+        plane_folder.add(obj.position, 'x', -100, 100).name("position x");
+        plane_folder.add(obj.position, 'y', -100, 100).name("position y");
+        plane_folder.add(obj.position, 'z', -100, 100).name("position z");
+
+        plane_folder.add(obj.rotation, 'x', -Math.PI, Math.PI, Math.PI / 1000).name("rotation x");
+        plane_folder.add(obj.rotation, 'y', -Math.PI, Math.PI, Math.PI / 1000).name("rotation y");
+        plane_folder.add(obj.rotation, 'z', -Math.PI, Math.PI, Math.PI / 1000).name("rotation z");
+    }
 }
 
 // Calculate rotation to see dot from pos
