@@ -11,7 +11,8 @@ import TWEEN from '@tweenjs/tween.js';
 export interface NPCReplicaInterface {
     text:string,
     options: string[],
-    emojis? : (string | null)[],
+    emojis? : string[],
+    action?: number,
     order: number[]
 }
 const npcReplicasExample = [
@@ -55,6 +56,7 @@ export class NPC implements NPCInterface {
     npc_obj: THREE.Object3D|any;
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
+    actionFunc: Function;
 
     constructor(name : string, path : string, replicas: NPCReplicaInterface[] = npcReplicasExample) {
         this.name = `npc_${name}`;
@@ -67,6 +69,7 @@ export class NPC implements NPCInterface {
             y : 0.8,
             z : 0.8,
         }
+        this.actionFunc = null;
     }
 
     async load() : Promise<void> {
@@ -173,7 +176,7 @@ export class NPC implements NPCInterface {
         tweenTo.chain(tweenBack);
         tweenTo.start(); // Start animation chain
 
-        typeDialog(this.replicas); // Start dialogue
+        typeDialog(this.replicas, this.actionFunc); // Start dialogue
     }
 
     animatedMovement(pos: THREE.Vector3) {

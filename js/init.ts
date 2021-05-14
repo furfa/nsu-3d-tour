@@ -69,9 +69,9 @@ export function init() : PANOLENS.Viewer {
 export const MAIN_NPC = new NPC("steve", "../models/steve/scene.gltf");
 // export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
 export const APPLE_FOOD = new Food("apple", "../models/apple/scene.gltf");
-const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 4);
+export const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 6);
 STATUS_BAR.load();
-STATUS_BAR.increase(4);
+STATUS_BAR.increase(3);
 
 export const panorams = [
     new PanoramaItem({

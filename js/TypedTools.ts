@@ -102,7 +102,7 @@ function renderOptions(options: string[]) {
     }
 }
 
-export async function typeDialog(replicas: NPCReplicaInterface[]) {
+export async function typeDialog(replicas: NPCReplicaInterface[], actionFunc:Function=null) {
     clearOptions();
     let replica: NPCReplicaInterface = replicas[0];
     while (true) {
@@ -115,6 +115,9 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) {
         let order = replica.order[selectedOp];
         if (order == -1) break;
         replica = replicas[order];
+        if (actionFunc && replica.action) {
+            actionFunc(replica.action);
+        }
     }
     clearDialogue();
     hideActionBox();

@@ -1,4 +1,5 @@
 import {NPC, NPCReplicaInterface} from './NPC'
+import {STATUS_BAR, } from "./init";
 
 const defaultActions : NPCReplicaInterface[] = [
     {
@@ -16,6 +17,7 @@ const defaultActions : NPCReplicaInterface[] = [
         text: "Ням!",
         options: [""],
         emojis: ["128282"],
+        action: 1,
         order: [-1]
     }
 ]
@@ -29,5 +31,13 @@ export class Food extends NPC {
             y : 0.4,
             z : 0.4,
         }
+        this.actionFunc = (function (toAdd: number) {
+            STATUS_BAR.increase(toAdd);
+            this.becameEaten();
+        }).bind(this)
+    }
+
+    becameEaten() {
+        this.npc_obj.parent.remove(this.npc_obj); // When someone eat object we need to remove it from scene
     }
 }
