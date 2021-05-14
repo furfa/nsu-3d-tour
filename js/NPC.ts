@@ -11,7 +11,7 @@ import TWEEN from '@tweenjs/tween.js';
 export interface NPCReplicaInterface {
     text:string,
     options: string[],
-    emojis: (string | null)[]
+    emojis? : (string | null)[],
     order: number[]
 }
 const npcReplicasExample = [

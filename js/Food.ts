@@ -10,7 +10,6 @@ const defaultActions : NPCReplicaInterface[] = [
     {
         text: "Привяо!",
         options: [""],
-        emojis: ["128282"],
         order: [-1]
     },
     {

@@ -43,6 +43,9 @@ async function sleep(ms){
 }
 
 export async function createOptions(options: string[], emojis: (string | null)[]) : Promise<string> {
+    if (emojis == null) {
+        emojis = [];
+    }
     if(!options.length) return null;
 
     actionsDiv = document.getElementById("actions");
