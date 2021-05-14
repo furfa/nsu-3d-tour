@@ -11,39 +11,34 @@ import TWEEN from '@tweenjs/tween.js';
 export interface NPCReplicaInterface {
     text:string,
     options: string[],
+    emojis: (string | null)[]
     order: number[]
 }
 const npcReplicasExample = [
     {
         text: "привет! меня зовут ****! сегодня я тебе расскажу о лучшем факультете Новосибирского государственного университета-механико-математическом! Сейчас мы находимся на 4 этаже. пойдем, я тебе расскажу как тут всё устроено. ",
-        options: ["hola, hombre!", "no eres mi amigo, liendres cúbico"],
-        order: [1, 4]
+        options: ["Люблю матфак и всё что с ним связано", "Матфак НЕ лучший факультет"],
+        emojis: ["128150", "128548"],
+        order: [1, 3]
     },
     {
-        text: "Bienvenido a NSU,\n" +
-            "¿qué planeas hacer?",
-        options: ["tengo mucha hambre.", "estoy aprendiendo aquí"],
-        order: [2, 3]
+        text: "Да, я тоже. Поэтому мы здесь.\n" +
+            "Сзади тебя находится яблоко, съешь его!",
+        options: ["Зачем?", "Хорошая идея"],
+        emojis: ["128563", "128077"],
+        order: [2, -1]
     },
     {
-        text: "maravilloso!",
-        options: ["sí, tengo que irme"],
-        order: [5]
-    },
-    {
-        text: "desconocer...",
-        options: ["nos conoceremos, adiós."],
-        order: [5]
-    },
-    {
-        text: "¿por qué es tan grosero?..",
-        options: ["..."],
-        order: [5]
-    },
-    {
-        text: "nos vemos",
-        options: [],
+        text: "Ты задаешь слишком много вопросов",
+        options: ["Диалог был написан в 12 часов ночи. спасибо за внимание"],
+        emojis: ["9851"],
         order: [-1]
+    },
+    {
+        text: "-20 social credits",
+        options: ["Звуки ярости", "Звуки справедливости"],
+        emojis: ["129324", "128519"],
+        order: [-1, -1]
     }
 ]
 

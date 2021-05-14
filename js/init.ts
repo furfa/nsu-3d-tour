@@ -56,7 +56,7 @@ export function init() : PANOLENS.Viewer {
         }
     }
 
-    const welcome_message: string = "para obtener instrucciones haga clic en Steve";
+    const welcome_message: string = "Чтобы начать тур обратись к Стиву";
     panorams[0].pano_obj.addEventListener( 'load', () => {
         typeMain([welcome_message]);
     });

@@ -42,7 +42,7 @@ async function sleep(ms){
     return new Promise<void>((resolve, reject) => setTimeout(() => {resolve()}, ms) );
 }
 
-export async function createOptions(options:string[]) : Promise<string> {
+export async function createOptions(options: string[], emojis: (string | null)[]) : Promise<string> {
     if(!options.length) return null;
 
     actionsDiv = document.getElementById("actions");
@@ -66,7 +66,12 @@ export async function createOptions(options:string[]) : Promise<string> {
         });
         promises.push(prom);
         optionsOl.appendChild(li);
-        typeOption([o], `option-${i}`);
+        // Add emojis
+        let emoji = "128073"; // <- Default
+        if (i < emojis.length && emojis[i] != null) {
+            emoji = emojis[i];
+        }
+        typeOption([`&#${emoji}; : ${o}`], `option-${i}`);
     }
 
     return await Promise.race(promises);
@@ -100,7 +105,7 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) {
     while (true) {
         typeMain([replica.text]);
         renderOptions(replica.options);
-        let selectedOp : any = await createOptions(replica.options);
+        let selectedOp : any = await createOptions(replica.options, replica.emojis);
         if (selectedOp == null) {
             selectedOp = 0;
         }
@@ -108,6 +113,8 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) {
         if (order == -1) break;
         replica = replicas[order];
     }
+    clearDialogue();
+    hideActionBox();
 }
 
 function clearDialogue() : void {

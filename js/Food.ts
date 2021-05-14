@@ -3,17 +3,20 @@ import {NPC, NPCReplicaInterface} from './NPC'
 const defaultActions : NPCReplicaInterface[] = [
     {
         text: "Найден предмет",
-        options: ["Подобрать", "Съесть"],
+        options: ["Привет!", "Съесть"],
+        emojis: ["128079", "128523"],
         order: [1, 2]
     },
     {
-        text: "Быстро поднятое упавшим не считается",
-        options: ["..."],
+        text: "Привяо!",
+        options: [""],
+        emojis: ["128282"],
         order: [-1]
     },
     {
         text: "Ням!",
-        options: ["..."],
+        options: [""],
+        emojis: ["128282"],
         order: [-1]
     }
 ]
