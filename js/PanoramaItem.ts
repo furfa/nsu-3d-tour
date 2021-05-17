@@ -107,6 +107,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 if(window.GUI.__folders["plane"]) {
                     let folder = window.GUI.__folders["plane"];
                     folder.close();
+                    // @ts-ignore
                     window.GUI.__ul.removeChild(folder.domElement.parentNode);
                     delete window.GUI.__folders["plane"];
                 }
