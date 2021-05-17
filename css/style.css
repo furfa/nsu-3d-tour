@@ -50,6 +50,7 @@ html, body {
     top: 3%;
     left: 3%;
     transition: opacity 0.5s;
+    opacity: 0;
 }
 #food-bar > ol{
     display: flex;
