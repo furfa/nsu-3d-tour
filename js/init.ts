@@ -38,13 +38,9 @@ function loadWelcomeScreen(viewer, nextPano) {
         order: [-1]
     }];
 
-    const food_bar = document.getElementById("food-bar");
-    food_bar.classList.add("hidden");
-
     typeDialog(welcomeDialogue).then(() => {
      console.log("welcome dialog ended");
      viewer.setPanorama(nextPano.pano_obj);
-     food_bar.classList.remove("hidden");
     })
 
 }
