@@ -1,10 +1,12 @@
-import {typeMain} from "./TypedTools";
-import {NPC} from "./NPC";
+import {typeDialog, typeMain} from "./TypedTools";
+import {NPC, NPCReplicaInterface} from "./NPC";
 import {Food} from "./Food";
 import {PanoramaItem} from "./PanoramaItem";
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
 import * as dat from 'dat.gui';
+
+import TWEEN from '@tweenjs/tween.js';
 
 // There is one more (and better) way how to do this
 // But it's for nerds
@@ -19,6 +21,15 @@ declare global{
         DEBUG:boolean;
         GUI: dat.GUI;
     }
+}
+
+function loadWelcomeScreen(viewer) {
+    console.log('loading welcome screen');
+    //TODO:
+    // - blur
+    // - link to first panorama
+    // - buttons to start
+    // - rotation animation
 }
 
 export function init() : PANOLENS.Viewer {
@@ -56,9 +67,11 @@ export function init() : PANOLENS.Viewer {
         }
     }
 
-    const welcome_message: string = "Чтобы начать тур обратись к Стиву";
+    // const welcomeMessage: string = "поговори со Стивом чтобы начать тур";
+
     panorams[0].pano_obj.addEventListener( 'load', () => {
-        typeMain([welcome_message]);
+        // typeMain([welcomeMessage]);
+        loadWelcomeScreen(viewer);
     });
 
     return viewer;
@@ -74,6 +87,14 @@ STATUS_BAR.load();
 STATUS_BAR.increase(3);
 
 export const panorams = [
+    new PanoramaItem({
+        name: "welcome_screen",
+        pano_url: pano1_url,
+        transition_edges: [],
+        enter_look_direction: new THREE.Vector3(0, 0, 0),
+        npc_list: [],
+        lightPos: []
+    }),
     new PanoramaItem({
         name: "hall_4f_1b",
         pano_url: pano1_url,
