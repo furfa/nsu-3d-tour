@@ -14,6 +14,9 @@ import TWEEN from '@tweenjs/tween.js';
 import pano1_url from '../img/pano1.jpg';
 // @ts-ignore
 import pano2_url from '../img/pano2.jpg';
+// @ts-ignore
+import pano_wellcome_url from '../img/pano_wellcome.jpg';
+
 import {StatusBar} from "./StatusBar";
 
 declare global{
@@ -99,7 +102,7 @@ STATUS_BAR.increase(3);
 export const panorams = [
     new PanoramaItem({
         name: "welcome_screen",
-        pano_url: pano1_url,
+        pano_url: pano_wellcome_url,
         transition_edges: [],
         enter_look_direction: new THREE.Vector3(0, 0, 0),
         npc_list: [],
