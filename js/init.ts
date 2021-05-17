@@ -28,19 +28,30 @@ declare global{
 
 function loadWelcomeScreen(viewer, nextPano) {
     console.log('loading welcome screen');
-    //TODO:
-    // - blur
-    // - rotation animation
-    const welcomeDialogue : NPCReplicaInterface[] = [{
+
+    let element = document.getElementById("pano-image"); // Blur
+    element.style.filter = "blur(5px)";
+
+    let rotationAnim = () => { viewer.panorama.rotation.y -= 0.001; }; // Rotation
+    viewer.addUpdateCallback(rotationAnim);
+
+    const welcomeDialogue : NPCReplicaInterface[] = [{ // Start 'button'
         text: "Добро пожаловать в NSU-Tour!",
         options: ["Начать тур!"],
         emojis: [],
         order: [-1]
     }];
 
+    const food_bar = document.getElementById("food-bar"); // Hide food bar
+    food_bar.classList.add("hidden");
+
+    // Start game, so remove all effects
     typeDialog(welcomeDialogue).then(() => {
      console.log("welcome dialog ended");
      viewer.setPanorama(nextPano.pano_obj);
+     viewer.removeUpdateCallback(rotationAnim);
+     element.style.filter = "";
+     food_bar.classList.remove("hidden");
     })
 
 }
