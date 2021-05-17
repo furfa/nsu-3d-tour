@@ -23,13 +23,23 @@ declare global{
     }
 }
 
-function loadWelcomeScreen(viewer) {
+function loadWelcomeScreen(viewer, nextPano) {
     console.log('loading welcome screen');
     //TODO:
     // - blur
-    // - link to first panorama
-    // - buttons to start
     // - rotation animation
+    const welcomeDialogue : NPCReplicaInterface[] = [{
+        text: "Добро пожаловать в NSU-Tour!",
+        options: ["Начать тур!"],
+        emojis: [],
+        order: [-1]
+    }];
+
+    typeDialog(welcomeDialogue).then(() => {
+     console.log("welcome dialog ended");
+     viewer.setPanorama(nextPano.pano_obj);
+    })
+
 }
 
 export function init() : PANOLENS.Viewer {
@@ -71,7 +81,7 @@ export function init() : PANOLENS.Viewer {
 
     panorams[0].pano_obj.addEventListener( 'load', () => {
         // typeMain([welcomeMessage]);
-        loadWelcomeScreen(viewer);
+        loadWelcomeScreen(viewer, panorams[1]);
     });
 
     return viewer;
@@ -94,7 +104,7 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(0, 0, 0),
         npc_list: [],
         lightPos: []
-    }),
+    }, false),
     new PanoramaItem({
         name: "hall_4f_1b",
         pano_url: pano1_url,

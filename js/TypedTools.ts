@@ -102,7 +102,7 @@ function renderOptions(options: string[]) {
     }
 }
 
-export async function typeDialog(replicas: NPCReplicaInterface[], actionFunc:Function=null) {
+export async function typeDialog(replicas: NPCReplicaInterface[], actionFunc:Function=null) : Promise<void> {
     clearOptions();
     let replica: NPCReplicaInterface = replicas[0];
     while (true) {

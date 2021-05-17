@@ -25,6 +25,7 @@ export class PanoramaItem implements PanoramaItemInterface {
     pano_obj: PANOLENS.Panorama;
     first_look: boolean;
     viewer:PANOLENS.Viewer;
+    typedCanBeHidden: boolean;
 
     constructor({
           name,
@@ -33,7 +34,7 @@ export class PanoramaItem implements PanoramaItemInterface {
           enter_look_direction = new THREE.Vector3(0,0,0),
           npc_list,
           lightPos = []
-        } : PanoramaItemInterface) {
+        } : PanoramaItemInterface, typedCanBeHidden: boolean = true) {
 
         this.name = name;
         this.pano_url = pano_url;
@@ -44,6 +45,7 @@ export class PanoramaItem implements PanoramaItemInterface {
         this.first_look = true;
         this.npc_list = npc_list;
         this.lightPos = lightPos;
+        this.typedCanBeHidden = typedCanBeHidden;
 
         this.initScene();
     }
@@ -132,8 +134,10 @@ export class PanoramaItem implements PanoramaItemInterface {
                       }
                   }
               }
-            }else{
-                hideActionBox();
+            } else {
+                if (this.typedCanBeHidden) {
+                    hideActionBox();
+                }
                 console.log("click not to NPC");
             }
         });
