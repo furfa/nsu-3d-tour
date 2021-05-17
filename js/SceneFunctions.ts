@@ -35,6 +35,7 @@ export const addFloor = (pano_obj: PANOLENS.Panorama) => {
     // debugger;
 }
 
+
 // Calculate coordinates of ellipse dot, by angle
 export function calculateViewCoords(angle: number): THREE.Vector3 { // (ellipse movement)
     let a = 30;

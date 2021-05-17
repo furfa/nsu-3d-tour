@@ -86,7 +86,6 @@ export class PanoramaItem implements PanoramaItemInterface {
 
     initScene() {
 
-
         // Enter event
         this.pano_obj.addEventListener('enter', () => {
 
@@ -104,6 +103,14 @@ export class PanoramaItem implements PanoramaItemInterface {
                     addAPointLight(this.pano_obj, position);
                 }
 
+                // КОСТЫЛЬ ЕБУЧИЙ
+                if(window.GUI.__folders["plane"]) {
+                    let folder = window.GUI.__folders["plane"];
+                    folder.close();
+                    window.GUI.__ul.removeChild(folder.domElement.parentNode);
+                    delete window.GUI.__folders["plane"];
+                }
+
                 addFloor(this.pano_obj);
                 this.first_look = false;
             }
@@ -115,6 +122,9 @@ export class PanoramaItem implements PanoramaItemInterface {
         // Leave event
         this.pano_obj.addEventListener('leave', () => {
            console.log(`leave ${this.name}`);
+
+
+
            console.log(`NPCs left: ${this.npc_list} (should be empty)`);
         });
 
