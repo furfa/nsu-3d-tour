@@ -43,7 +43,7 @@ function loadWelcomeScreen(viewer, nextPano) {
     }];
 
     const food_bar = document.getElementById("food-bar"); // Hide food bar
-    food_bar.classList.add("hidden");
+    food_bar.classList.add("hidden_via_opacity");
 
     // Start game, so remove all effects
     typeDialog(welcomeDialogue).then(() => {
@@ -51,7 +51,7 @@ function loadWelcomeScreen(viewer, nextPano) {
      viewer.setPanorama(nextPano.pano_obj);
      viewer.removeUpdateCallback(rotationAnim);
      element.style.filter = "";
-     food_bar.classList.remove("hidden");
+     food_bar.classList.remove("hidden_via_opacity");
     })
 
 }

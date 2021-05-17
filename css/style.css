@@ -49,6 +49,7 @@ html, body {
     position: fixed;
     top: 3%;
     left: 3%;
+    transition: opacity 0.5s;
 }
 #food-bar > ol{
     display: flex;
@@ -92,6 +93,9 @@ html, body {
 
 .hidden {
     visibility: hidden;
+}
+.hidden_via_opacity{
+    opacity: 0;
 }
 
 #pano-image > div:nth-child(3){
