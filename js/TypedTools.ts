@@ -7,8 +7,7 @@ let typeSpeed: number = 0;
 let typedMain: Typed;
 let typedOptions: Typed[] = [];
 
-// export function type
-
+// Type message
 export function typeMain(strings: string[]) : void {
     console.log(strings);
 
@@ -21,6 +20,7 @@ export function typeMain(strings: string[]) : void {
     });
 }
 
+// Type response options
 function typeOption(options: string[], selector: string) : void {
     console.log('options: ', options);
     let typedOption;
@@ -33,7 +33,6 @@ function typeOption(options: string[], selector: string) : void {
     typedOptions.push(typedOption);
 }
 
-
 let actionsDiv;
 let dialogueDiv;
 let optionsOl;
@@ -42,7 +41,7 @@ async function sleep(ms) : Promise<void> {
     return new Promise<void>((resolve) => setTimeout(() => {resolve()}, ms) );
 }
 
-export async function createOptions(options: string[], emojis: (string | null)[]) : Promise<number> {
+export async function createOptions(options: string[], emojis: string[]) : Promise<number> {
     if (emojis == null) {
         emojis = [];
     }
@@ -123,16 +122,15 @@ export async function typeDialog(replicas: NPCReplicaInterface[], actionFunc:Fun
         }
     }
     clearDialogue();
-    hideActionBox();
+    hideDialogueBox();
 }
 
 function clearDialogue() : void {
     typedMain.destroy();
 }
 
-export function hideActionBox() : void {
+export function hideDialogueBox() : void {
     dialogueDiv || (dialogueDiv = document.getElementById("dialog"));
-    // dialogueDiv.classList.add("hidden");
 
     let cssProp = {
         opacity:dialogueDiv.style.opacity,
@@ -151,7 +149,6 @@ export function hideActionBox() : void {
 
 function showActionBox() : void {
     dialogueDiv || (dialogueDiv = document.getElementById("dialog"));
-    // dialogueDiv.classList.remove("hidden");
     let cssProp = {
         opacity:0.0,
     };

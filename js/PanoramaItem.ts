@@ -2,7 +2,7 @@ import * as PANOLENS from "panolens";
 import * as THREE from "three";
 import {NPC} from "./NPC";
 import {addALight, addAPointLight, addFloor} from "./SceneFunctions";
-import { hideActionBox } from "./TypedTools"
+import { hideDialogueBox } from "./TypedTools"
 
 
 interface PanoramaItemInterface {
@@ -41,7 +41,6 @@ export class PanoramaItem implements PanoramaItemInterface {
         this.transition_edges = transition_edges;
         this.pano_obj = new PANOLENS.ImagePanorama(this.pano_url);
         this.enter_look_direction = enter_look_direction;
-
         this.first_look = true;
         this.npc_list = npc_list;
         this.lightPos = lightPos;
@@ -139,7 +138,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 }
             } else {
                 if (this.typedCanBeHidden) {
-                    hideActionBox();
+                    hideDialogueBox();
                 }
                 console.log("click not to NPC");
             }

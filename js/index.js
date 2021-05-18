@@ -5,10 +5,14 @@ import TWEEN from '@tweenjs/tween.js';
 import {calculateViewCoords, calculateViewRotation} from "./SceneFunctions";
 
 // TODO:
-// - make for async
-// - debug fbx loader
-// - Make dialogues more colorful
-// - add configs (see init.ts)
+//  (globally)
+//  - make for async
+//  - debug fbx loader
+//  - Make dialogues more colorful
+//  - add configs (see init.ts)
+//  (init.ts):
+//  - Rewrite hardcode to reading configs
+//  - Расширить интерфейс окна для добавления новых проперти
 
 const viewer = init();
 
@@ -16,7 +20,7 @@ const viewer = init();
 viewer.addUpdateCallback(() => {
     TWEEN.update();
 
-    if(MAIN_NPC.npc_obj) { // Just for try something
+    if(MAIN_NPC.npc_obj) {
 
         // Steve mirroring rotation:
         let angle = viewer.getControl().getAzimuthalAngle();
