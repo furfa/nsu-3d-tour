@@ -50,14 +50,12 @@ export class PanoramaItem implements PanoramaItemInterface {
         this.initScene();
     }
 
-    detectNPCName(obj: THREE.Mesh|any) : string {
+    // gets Mesh object and return first npc name
+    detectNPCName(obj) : string {
       for (let i = 0; i <= 20 && obj.type !== 'Scene'; i++) {
           obj = obj.parent;
       }
-      if(obj.type === 'Scene') {
-          return obj.name;
-      }
-      return null;
+      return obj.type === 'Scene' ? obj.name : null;
     }
 
     setViewer(viewer: PANOLENS.Panorama) {
@@ -96,8 +94,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 this.viewer.tweenControlCenter(this.enter_look_direction, 0);
                 console.log(`Looking at ${this.enter_look_direction}`);
 
-                // adding objects
-
+                // Adding objects
                 addALight(this.pano_obj);
                 for (let position of this.lightPos) {
                     addAPointLight(this.pano_obj, position);
@@ -116,35 +113,30 @@ export class PanoramaItem implements PanoramaItemInterface {
                 this.first_look = false;
             }
 
-
-            console.log(this);
+            console.log('init scene', this);
         });
 
         // Leave event
         this.pano_obj.addEventListener('leave', () => {
            console.log(`leave ${this.name}`);
-
-
-
-           console.log(`NPCs left: ${this.npc_list} (should be empty)`);
         });
 
         // Click event
         this.pano_obj.addEventListener( 'click', ( event ) => {
             if ( event.intersects.length > 0 ) {
-              console.log(event);
+                console.log(event);
 
-              let intersect : THREE.Mesh = event.intersects[ 0 ].object;
+                let intersect : THREE.Mesh = event.intersects[0].object;
 
-              if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ) {
-                  let name: string = this.detectNPCName(intersect);
-
-                  for(let {npc, pos} of this.npc_list) {
-                      if(npc.name === name) {
-                          npc.handleClick();
-                      }
-                  }
-              }
+                if ( !(intersect instanceof PANOLENS.Infospot) && intersect.material ) {
+                    let name: string = this.detectNPCName(intersect);
+                    for (let {npc, pos} of this.npc_list) {
+                        if (npc.name === name) {
+                            npc.handleClick();
+                            break;
+                        }
+                    }
+                }
             } else {
                 if (this.typedCanBeHidden) {
                     hideActionBox();

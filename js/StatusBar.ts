@@ -10,6 +10,7 @@ interface  StatusBarInterface {
         'ol': HTMLElement,
         'cells': HTMLElement[],
     };
+    loaded: boolean;
 }
 
 export class StatusBar implements StatusBarInterface {
@@ -19,6 +20,7 @@ export class StatusBar implements StatusBarInterface {
     maxAmount;
     amount;
     onPage;
+    loaded;
 
     constructor(name: string, path: string, selector: string, maxAmount: number) {
         this.name = `sb_${name}`;
@@ -28,9 +30,14 @@ export class StatusBar implements StatusBarInterface {
         this.amount = 0;
         this.onPage = {};
         this.onPage.cells = [];
+        this.loaded = false;
     }
 
     decrease(amount : number) {
+        if (!this.loaded) {
+            console.warn( 'Load status bar first, then decrease' );
+            return;
+        }
         if (this.amount - amount >= 0) {
             this.amount -= amount;
             for (let i = 0; i < amount; ++i) {
@@ -40,6 +47,10 @@ export class StatusBar implements StatusBarInterface {
     }
 
     increase(amount : number) {
+        if (!this.loaded) {
+            console.warn( 'Load status bar first, then increase' );
+            return;
+        }
         if (this.amount + amount <= this.maxAmount) {
             this.amount += amount;
             for (let i = 0; i < amount; ++i) {
@@ -50,11 +61,10 @@ export class StatusBar implements StatusBarInterface {
 
     load() {
         console.log(`loading status bar: ${this.name}`);
-
         this.onPage.parent = document.getElementById(this.selector);
         this.onPage.ol = document.createElement("ol");
         this.onPage.parent.appendChild(this.onPage.ol);
-
+        this.loaded = true;
     }
 
     addCell() {

@@ -38,11 +38,11 @@ let actionsDiv;
 let dialogueDiv;
 let optionsOl;
 
-async function sleep(ms){
-    return new Promise<void>((resolve, reject) => setTimeout(() => {resolve()}, ms) );
+async function sleep(ms) : Promise<void> {
+    return new Promise<void>((resolve) => setTimeout(() => {resolve()}, ms) );
 }
 
-export async function createOptions(options: string[], emojis: (string | null)[]) : Promise<string> {
+export async function createOptions(options: string[], emojis: (string | null)[]) : Promise<number> {
     if (emojis == null) {
         emojis = [];
     }
@@ -52,28 +52,31 @@ export async function createOptions(options: string[], emojis: (string | null)[]
     optionsOl = document.createElement("ol");
     actionsDiv.appendChild(optionsOl);
 
-    let promises = [];
+    let promises : Promise<number>[] = [];
 
     for (let i = 0; i < options.length; i++) {
-        await sleep(1000);
+        await sleep(700);
+
         const o = options[i];
         let li = document.createElement("li");
         li.setAttribute("id", `option-${i}`);
-        // li.innerText = o;
-        let prom = new Promise((resolve, reject) => {
-            li.addEventListener("click", ()=>{
+        optionsOl.appendChild(li);
+
+        let prom = new Promise<number>((resolve) => {
+            li.addEventListener("click", () => {
                 console.log(`you clicked on ${o}`);
                 clearOptions();
                 resolve(i);
             });
         });
         promises.push(prom);
-        optionsOl.appendChild(li);
+
         // Add emojis
         let emoji = "128073"; // <- Default
         if (i < emojis.length && emojis[i] != null) {
             emoji = emojis[i];
         }
+
         typeOption([`&#${emoji}; : ${o}`], `option-${i}`);
     }
 

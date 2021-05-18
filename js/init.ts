@@ -1,15 +1,14 @@
-import {typeDialog, typeMain} from "./TypedTools";
+import {typeDialog} from "./TypedTools";
 import {NPC, NPCReplicaInterface} from "./NPC";
 import {Food} from "./Food";
 import {PanoramaItem} from "./PanoramaItem";
+import {StatusBar} from "./StatusBar";
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
 import * as dat from 'dat.gui';
 
-import TWEEN from '@tweenjs/tween.js';
 
 // There is one more (and better) way how to do this
-// But it's for nerds
 // @ts-ignore
 import pano1_url from '../img/pano1.jpg';
 // @ts-ignore
@@ -17,7 +16,6 @@ import pano2_url from '../img/pano2.jpg';
 // @ts-ignore
 import pano_wellcome_url from '../img/pano_wellcome.jpg';
 
-import {StatusBar} from "./StatusBar";
 
 declare global{
     interface Window{
@@ -26,7 +24,7 @@ declare global{
     }
 }
 
-function loadWelcomeScreen(viewer, nextPano) {
+function initWelcomeScreen(viewer, nextPano) {
     console.log('loading welcome screen');
 
     let element = document.getElementById("pano-image"); // Blur
@@ -91,11 +89,8 @@ export function init() : PANOLENS.Viewer {
         }
     }
 
-    // const welcomeMessage: string = "поговори со Стивом чтобы начать тур";
-
     panorams[0].pano_obj.addEventListener( 'load', () => {
-        // typeMain([welcomeMessage]);
-        loadWelcomeScreen(viewer, panorams[1]);
+        initWelcomeScreen(viewer, panorams[1]);
     });
 
     return viewer;

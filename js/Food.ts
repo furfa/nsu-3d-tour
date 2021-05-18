@@ -37,7 +37,8 @@ export class Food extends NPC {
         }).bind(this)
     }
 
+    // When someone eat object we need to remove it from scene
     becameEaten() {
-        this.npc_obj.parent.remove(this.npc_obj); // When someone eat object we need to remove it from scene
+        this.npc_obj.parent.remove(this.npc_obj);
     }
 }

@@ -7,7 +7,6 @@ import {addDebugGUI} from './SceneFunctions';
 import TWEEN from '@tweenjs/tween.js';
 
 
-
 export interface NPCReplicaInterface {
     text:string,
     options: string[],
@@ -177,10 +176,6 @@ export class NPC implements NPCInterface {
         tweenTo.start(); // Start animation chain
 
         typeDialog(this.replicas, this.actionFunc); // Start dialogue
-    }
-
-    animatedMovement(pos: THREE.Vector3) {
-
     }
 
     addToControlPanel(){
