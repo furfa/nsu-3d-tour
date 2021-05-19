@@ -1,8 +1,8 @@
-import {typeDialog} from "./TypedTools";
-import {NPC, NPCReplicaInterface} from "./NPC";
-import {Food} from "./Food";
-import {PanoramaItem} from "./PanoramaItem";
-import {StatusBar} from "./StatusBar";
+import { typeDialog } from "./TypedTools";
+import { NPC, NPCReplicaInterface } from "./NPC";
+import { Food } from "./Food";
+import { PanoramaItem } from "./PanoramaItem";
+import { StatusBar } from "./StatusBar";
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
 import * as dat from 'dat.gui';

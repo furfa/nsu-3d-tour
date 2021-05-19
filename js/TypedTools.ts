@@ -2,6 +2,12 @@ import Typed from "typed.js"
 import TWEEN from '@tweenjs/tween.js';
 import { NPCReplicaInterface } from './NPC'
 
+export enum AfterAction {
+    Delete,
+    Eat,
+    None
+}
+
 // Globals for configuring typing
 let typeSpeed: number = 0;
 let typedMain: Typed;
@@ -104,25 +110,29 @@ function renderOptions(options: string[]) {
     }
 }
 
-export async function typeDialog(replicas: NPCReplicaInterface[], actionFunc:Function=null) : Promise<void> {
-    clearOptions();
-    let replica: NPCReplicaInterface = replicas[0];
-    while (true) {
-        typeMain([replica.text]);
-        renderOptions(replica.options);
-        let selectedOp : any = await createOptions(replica.options, replica.emojis);
-        if (selectedOp == null) {
-            selectedOp = 0;
+export async function typeDialog(replicas: NPCReplicaInterface[]) : Promise<AfterAction> {
+    return new Promise<AfterAction> ( async (resolve) => {
+        clearOptions();
+        let replica: NPCReplicaInterface = replicas[0];
+        let action = AfterAction.None;
+        while (true) {
+            typeMain([replica.text]);
+            renderOptions(replica.options);
+            let selectedOp: any = await createOptions(replica.options, replica.emojis);
+            if (selectedOp == null) {
+                selectedOp = 0;
+            }
+            let order = replica.order[selectedOp];
+            if (order == -1) break;
+            replica = replicas[order];
+            if (replica.action != null) {
+                action = replica.action;
+            }
         }
-        let order = replica.order[selectedOp];
-        if (order == -1) break;
-        replica = replicas[order];
-        if (actionFunc && replica.action) {
-            actionFunc(replica.action);
-        }
-    }
-    clearDialogue();
-    hideDialogueBox();
+        await clearDialogue();
+        await hideDialogueBox();
+        resolve(action);
+    })
 }
 
 function clearDialogue() : void {

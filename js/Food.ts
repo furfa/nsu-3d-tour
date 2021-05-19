@@ -1,5 +1,6 @@
-import {NPC, NPCReplicaInterface} from './NPC'
-import {STATUS_BAR, } from "./init";
+import { NPC, NPCReplicaInterface } from './NPC'
+import { STATUS_BAR } from "./init";
+import { AfterAction } from "./TypedTools";
 
 const defaultActions : NPCReplicaInterface[] = [
     {
@@ -17,13 +18,14 @@ const defaultActions : NPCReplicaInterface[] = [
         text: "Ням!",
         options: [""],
         emojis: ["128282"],
-        action: 1,
+        action: AfterAction.Eat,
         order: [-1]
     }
 ]
 
 export class Food extends NPC {
-    constructor(name : string, path : string) {
+    eatCost: number;
+    constructor(name : string, path : string, eatCost:number=1) {
         super(name, path, defaultActions);
         this.name = `food_${name}`;
         this.usualScale = {
@@ -31,14 +33,15 @@ export class Food extends NPC {
             y : 0.4,
             z : 0.4,
         }
+        this.eatCost = eatCost;
         this.actionFunc = (function (toAdd: number) {
-            STATUS_BAR.increase(toAdd);
-            this.becameEaten();
+            this.becameEaten(toAdd);
         }).bind(this)
     }
 
     // When someone eat object we need to remove it from scene
     becameEaten() {
+        STATUS_BAR.increase(this.eatCost);
         this.npc_obj.parent.remove(this.npc_obj);
     }
 }

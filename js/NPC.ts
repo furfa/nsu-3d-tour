@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader';
-import {typeDialog} from './TypedTools';
-import {addDebugGUI} from './SceneFunctions';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { typeDialog, AfterAction } from './TypedTools';
+import { addDebugGUI } from './SceneFunctions';
 
 import TWEEN from '@tweenjs/tween.js';
 
@@ -11,7 +11,7 @@ export interface NPCReplicaInterface {
     text:string,
     options: string[],
     emojis? : string[],
-    action?: number,
+    action?: AfterAction,
     order: number[]
 }
 const npcReplicasExample = [
@@ -136,7 +136,7 @@ export class NPC implements NPCInterface {
         if(!this.npc_obj) return;
         this.npc_obj.position.set(vec.x,vec.y,vec.z);
     }
-    handleClick() {
+    handleClick() : Promise<AfterAction> {
         console.log(`You clicked on me!\n (im: ${this.name})`);
 
         let scale = {
@@ -175,7 +175,7 @@ export class NPC implements NPCInterface {
         tweenTo.chain(tweenBack);
         tweenTo.start(); // Start animation chain
 
-        typeDialog(this.replicas, this.actionFunc); // Start dialogue
+        return typeDialog(this.replicas); // Start dialogue
     }
 
     addToControlPanel(){

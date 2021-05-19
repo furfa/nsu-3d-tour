@@ -1,8 +1,8 @@
 "use strict";
-import {init, MAIN_NPC} from "./init";
+import { init, MAIN_NPC } from "./init";
 
 import TWEEN from '@tweenjs/tween.js';
-import {calculateViewCoords, calculateViewRotation} from "./SceneFunctions";
+import { calculateViewCoords, calculateViewRotation } from "./SceneFunctions";
 
 // TODO:
 //  (globally)

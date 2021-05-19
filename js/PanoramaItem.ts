@@ -1,8 +1,9 @@
 import * as PANOLENS from "panolens";
 import * as THREE from "three";
-import {NPC} from "./NPC";
-import {addALight, addAPointLight, addFloor} from "./SceneFunctions";
-import { hideDialogueBox } from "./TypedTools"
+import { NPC } from "./NPC";
+import { addALight, addAPointLight, addFloor } from "./SceneFunctions";
+import { hideDialogueBox, AfterAction } from "./TypedTools"
+import {Food} from "./Food";
 
 
 interface PanoramaItemInterface {
@@ -131,12 +132,13 @@ export class PanoramaItem implements PanoramaItemInterface {
                     let name: string = this.detectNPCName(intersect);
                     for (let {npc, pos} of this.npc_list) {
                         if (npc.name === name) {
-                            npc.handleClick();
+                            this.handleNpcClick(npc);
                             break;
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 if (this.typedCanBeHidden) {
                     hideDialogueBox();
                 }
@@ -144,5 +146,29 @@ export class PanoramaItem implements PanoramaItemInterface {
             }
         });
 
+    }
+    handleNpcClick(npc : NPC) {
+        npc.handleClick()
+        .then((action : AfterAction) => {
+            console.log(`Doing action: ${action}`);
+            if (action == AfterAction.Delete) {
+                this.deleteNpcFromList(npc);
+            }
+            else if (action == AfterAction.Eat) {
+                this.deleteNpcFromList(npc);
+                if ('becameEaten' in npc) {
+                    let npcFood : Food = npc;
+                    npcFood.becameEaten();
+                }
+            }
+        });
+    }
+
+    deleteNpcFromList(npc: NPC) {
+        const npcIndex = this.npc_list.findIndex(npcElement => npcElement.npc.name == npc.name);
+        if (npcIndex > -1) {
+            this.npc_list.splice(npcIndex, 1);
+        }
+        console.log('npc list:', this.npc_list);
     }
 }
