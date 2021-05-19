@@ -3,9 +3,9 @@ import TWEEN from '@tweenjs/tween.js';
 import { NPCReplicaInterface } from './NPC'
 
 export enum AfterAction {
-    Delete,
-    Eat,
-    None
+    Leave, // Leaves panorama after reenter
+    Eat, // Leaves panorama immediately
+    None // Just nothing
 }
 
 // Globals for configuring typing
@@ -120,7 +120,8 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) : Promise<Afte
             renderOptions(replica.options);
             let selectedOp: any = await createOptions(replica.options, replica.emojis);
             if (selectedOp == null) {
-                selectedOp = 0;
+                await sleep(2000);
+                break;
             }
             let order = replica.order[selectedOp];
             if (order == -1) break;

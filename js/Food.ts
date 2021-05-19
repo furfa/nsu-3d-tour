@@ -11,15 +11,15 @@ const defaultActions : NPCReplicaInterface[] = [
     },
     {
         text: "Привяо!",
-        options: [""],
-        order: [-1]
+        options: [],
+        order: []
     },
     {
         text: "Ням!",
-        options: [""],
+        options: [],
         emojis: ["128282"],
         action: AfterAction.Eat,
-        order: [-1]
+        order: []
     }
 ]
 
@@ -34,9 +34,6 @@ export class Food extends NPC {
             z : 0.4,
         }
         this.eatCost = eatCost;
-        this.actionFunc = (function (toAdd: number) {
-            this.becameEaten(toAdd);
-        }).bind(this)
     }
 
     // When someone eat object we need to remove it from scene

@@ -55,7 +55,6 @@ export class NPC implements NPCInterface {
     npc_obj: THREE.Object3D|any;
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
-    actionFunc: Function;
 
     constructor(name : string, path : string, replicas: NPCReplicaInterface[] = npcReplicasExample) {
         this.name = `npc_${name}`;
@@ -68,7 +67,6 @@ export class NPC implements NPCInterface {
             y : 0.8,
             z : 0.8,
         }
-        this.actionFunc = null;
     }
 
     async load() : Promise<void> {
@@ -108,6 +106,7 @@ export class NPC implements NPCInterface {
             });
         });
     }
+
     async loadFBX() : Promise<void> {
         const loader = new FBXLoader();
         await new Promise<void>((resolve) => {
@@ -132,10 +131,12 @@ export class NPC implements NPCInterface {
             });
         });
     }
+
     move(vec: THREE.Vector3) {
         if(!this.npc_obj) return;
         this.npc_obj.position.set(vec.x,vec.y,vec.z);
     }
+
     handleClick() : Promise<AfterAction> {
         console.log(`You clicked on me!\n (im: ${this.name})`);
 

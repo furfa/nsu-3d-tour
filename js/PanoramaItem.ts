@@ -151,7 +151,7 @@ export class PanoramaItem implements PanoramaItemInterface {
         npc.handleClick()
         .then((action : AfterAction) => {
             console.log(`Doing action: ${action}`);
-            if (action == AfterAction.Delete) {
+            if (action == AfterAction.Leave) {
                 this.deleteNpcFromList(npc);
             }
             else if (action == AfterAction.Eat) {
