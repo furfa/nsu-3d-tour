@@ -1,3 +1,4 @@
+const hunger_image_path:string = require("../img/hunger.png").default;
 
 interface  StatusBarInterface {
     name: string;
@@ -69,7 +70,7 @@ export class StatusBar implements StatusBarInterface {
 
     addCell() {
         let li = document.createElement("li");
-        li.innerHTML = '<img src="../img/hunger.png" ></img>';
+        li.innerHTML = `<img src="${hunger_image_path}" ></img>`;
         this.onPage.ol.appendChild(li);
         this.onPage.cells.push(li);
     }

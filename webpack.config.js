@@ -14,9 +14,21 @@ module.exports = {
     module: {
         rules: [
             { test: /\.svg$/, use: 'svg-inline-loader' },
-            { test: /\.css$/, use: 'css-loader' },
+            {
+              test: /\.css$/, use: [
+                {
+                    loader: 'style-loader',
+                    options: {
+                        injectType: 'linkTag',
+                    }
+                },
+                // {loader: 'style-loader', options: { injectType: 'linkTag' }},
+                {loader: 'file-loader' },
+              ]
+            },
             {
                 test: /\.(ts)$/,
+                exclude:/node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {"presets": ["@babel/preset-typescript"]}
@@ -24,12 +36,32 @@ module.exports = {
             },
             {
                 test: /\.(js)$/,
+                exclude:/node_modules/,
                 use: {
                     loader: 'babel-loader',
                     // options: {"presets": ["env"]}
                 },
             },
-            { test: /\.(png|jpe?g|gif)$/i, use: [ { loader: 'file-loader' }, ],}
+            { test: /\.(bin|png|jpe?g|gif)$/i, use: [ { loader: 'file-loader' }, ],},
+            {
+              test: /\.ttf$/,
+              use: [
+                {
+                  loader: 'ttf-loader',
+                  options: {
+                    name: './font/[hash].[ext]',
+                  },
+                },
+              ]
+            },
+            {
+              test: /\.(gltf)$/,
+              use: [
+                {
+                  loader: "gltf-webpack-loader"
+                }
+              ]
+            }
         ]
       },
     output: {
@@ -48,7 +80,6 @@ module.exports = {
     mode: 'development',
     devServer: {
         contentBase: [
-            path.resolve(__dirname, 'dist'),
             path.resolve(__dirname, '.'),
         ],
         port: 5000,
