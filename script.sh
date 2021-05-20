@@ -1,5 +1,7 @@
 #/bin/bash
 
+yarn run build
+
 files=$(ls ../build_rep)
 for file in $files 
 do
