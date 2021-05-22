@@ -15,6 +15,7 @@ const pano_wellcome_url:string = require('../img/pano_wellcome.jpg').default;
 
 const steve_url:string         = '../models/steve/scene.gltf';// require('../models/steve/scene.gltf').default;
 const apple_url:string         = '../models/apple/scene.gltf';// require('../models/apple/scene.gltf').default;
+const sandwich_url:string         = '../models/sandwich/sandwich.gltf';
 
 // Try to maximize
 function download(url) {
@@ -31,7 +32,7 @@ declare global{
 function initWelcomeScreen(viewer, nextPano) {
     console.log('loading welcome screen');
 
-    let element = document.getElementById("pano-image"); // Blur
+    let element = document.querySelector("#pano-image > canvas"); // Blur
 
     element.style.filter = "blur(5px)";
 
@@ -122,7 +123,7 @@ export function init() : PANOLENS.Viewer {
 
 export const MAIN_NPC = new NPC("steve", steve_url);
 // export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
-export const APPLE_FOOD = new Food("apple", apple_url);
+export const SANDWICH_FOOD = new Food("SANDWICH", sandwich_url, 1, {x:0.1,y:0.1,z:0.1});
 export const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 6);
 STATUS_BAR.load();
 STATUS_BAR.increase(3);
@@ -149,7 +150,7 @@ export const panorams = [
             pos: new THREE.Vector3(20, 0, 40)
         },
         {
-            npc: APPLE_FOOD,
+            npc: SANDWICH_FOOD,
             pos: new THREE.Vector3(-2, -2, -3.5)
         }],
         lightPos: [new THREE.Vector3(30, 0, 0)]

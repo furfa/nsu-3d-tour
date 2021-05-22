@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 yarn run build
 
@@ -11,7 +11,7 @@ done
 cp -r ./dist/* ../build_rep
 cp -r ./models ../build_rep
 
-cd ../build_rep
+cd ../build_rep || exit
 ls -a
 
 git add *; git commit -m "update"; git push

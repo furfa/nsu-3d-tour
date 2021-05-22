@@ -25,14 +25,10 @@ const defaultActions : NPCReplicaInterface[] = [
 
 export class Food extends NPC {
     eatCost: number;
-    constructor(name : string, path : string, eatCost:number=1) {
+    constructor(name : string, path : string, eatCost:number=1, scale:{x:number,y:number,z:number}={x:0.4, y:0.4, z:0.4}) {
         super(name, path, defaultActions);
         this.name = `food_${name}`;
-        this.usualScale = {
-            x : 0.4,
-            y : 0.4,
-            z : 0.4,
-        }
+        this.usualScale = scale;
         this.eatCost = eatCost;
     }
 
