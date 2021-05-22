@@ -99,17 +99,17 @@ export function init() : PANOLENS.Viewer {
     // for(let pan of panorams) pan.linking();
 
     // init edges
-    for(const pan of panorams) {
-        for(const {dest, pos} of pan.transition_edges) {
-
-            if(!objects[dest]) {
-                console.log(`panorama with name: "${dest}" not exist can't link`)
-                continue;
-            }
-
-            pan.pano_obj.link( objects[dest], pos );
-        }
-    }
+    // for(const pan of panorams) {
+    //     for(const {dest, pos} of pan.transition_edges) {
+    //
+    //         if(!objects[dest]) {
+    //             console.log(`panorama with name: "${dest}" not exist can't link`)
+    //             continue;
+    //         }
+    //
+    //         pan.pano_obj.link( window.PANORAMS[dest], pos );
+    //     }
+    // }
 
     panorams[0].pano_obj.addEventListener( 'load', () => {
         // Фикс, чтобы панорма загружалась. Тк css грузится после js

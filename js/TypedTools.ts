@@ -5,7 +5,8 @@ import { NPCReplicaInterface } from './NPC'
 export enum AfterAction {
     Leave, // Leaves panorama after reenter
     Eat, // Leaves panorama immediately
-    None // Just nothing
+    None, // Just nothing
+    UnlockLeaving, // Make leaving available
 }
 
 // Globals for configuring typing
@@ -14,8 +15,58 @@ let typedMain: Typed;
 let typedOptions: Typed[] = [];
 
 // Type message
-export function typeMain(strings: string[]) : void {
-    console.log(strings);
+function balancer(string: string) : string[] {
+
+    let dialogueBox = document.querySelector("#typed-block") as HTMLElement;
+    let coordParameters = dialogueBox.getBoundingClientRect()
+    /*
+    DOMRect {
+        bottom: 177,
+        height: 54.7,
+        left: 278.5,​
+        right: 909.5,
+        top: 122.3,
+        width: 631,
+        x: 278.5,
+        y: 122.3,
+    }
+     */
+    console.log(coordParameters);
+
+    let height : number = coordParameters.height;
+    height = 150;
+    let width :number = coordParameters.width;
+    width = 750;
+    let letSize : number = parseInt(window.getComputedStyle(dialogueBox, null).getPropertyValue('font-size'));
+    let letOnPage = width * height / (letSize * letSize * 4);
+    console.log(`height: ${height},\nwidth: ${width}\nletSize: ${letSize}\nletOnPage: ${letOnPage}`);
+    let words = string.split(' ');
+
+    let strings : string[] = [];
+    let letter = '';
+    let currentLen = 0;
+    for (let word of words) {
+        if (word.length + currentLen < letOnPage) {
+            letter += ' ' + word;
+            currentLen += word.length;
+        }
+        else {
+            strings.push(letter);
+            letter = '';
+            currentLen = 0;
+        }
+    }
+    if (letter != '') {
+        strings.push(letter);
+    }
+
+    console.log('strings: ', strings);
+    return strings;
+}
+
+async function typeMain(string: string, options_func ) : Promise<void> {
+    console.log(string);
+    let dialogueBox = document.querySelector("#dialog") as HTMLElement;
 
     typedMain && clearDialogue();
     showActionBox();
@@ -161,11 +212,13 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) : Promise<Afte
     return new Promise<AfterAction> ( async (resolve) => {
         clearOptions();
         let replica: NPCReplicaInterface = replicas[0];
-        let action = AfterAction.None;
+        let action = AfterAction.UnlockLeaving;
         while (true) {
-            typeMain([replica.text]);
-            renderOptions(replica.options);
-            let selectedOp: any = await createOptions(replica.options, replica.emojis);
+            let selectedOp: any;
+            await typeMain(replica.text, async ()=>{
+                renderOptions(replica.options);
+                selectedOp = await createOptions(replica.options, replica.emojis);
+            });
             if (selectedOp == null) {
                 await sleep(2000);
                 break;
@@ -176,6 +229,7 @@ export async function typeDialog(replicas: NPCReplicaInterface[]) : Promise<Afte
             if (replica.action != null) {
                 action = replica.action;
             }
+
         }
         await clearDialogue();
         await hideDialogueBox();

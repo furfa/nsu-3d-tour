@@ -109,7 +109,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                     delete window.GUI.__folders["plane"];
                 }
 
-                addFloor(this.pano_obj);
+                // addFloor(this.pano_obj);
                 this.first_look = false;
             }
 
@@ -161,7 +161,27 @@ export class PanoramaItem implements PanoramaItemInterface {
                     npcFood.becameEaten();
                 }
             }
+            else if (action == AfterAction.UnlockLeaving) {
+                this.linking();
+            }
         });
+    }
+
+    linking(){
+        console.log("linking!!!");
+        for(const {dest, pos} of this.transition_edges) {
+
+            if(!window.PANORAMS[dest]) {
+                console.log(`panorama with name: "${dest}" not exist can't link`)
+                continue;
+            }
+
+            this.pano_obj.link( window.PANORAMS[dest], pos );
+            console.log("link to", dest);
+        }
+
+        // panolens kostil
+        this.pano_obj.visible = true;
     }
 
     deleteNpcFromList(npc: NPC) {
