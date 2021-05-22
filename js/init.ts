@@ -9,30 +9,30 @@ import * as dat from 'dat.gui';
 
 
 // import panorams
-const pano1_url:string         = require('../img/pano1.jpg').default;
-const pano2_url:string         = require('../img/pano2.jpg').default;
-const pano_wellcome_url:string = require('../img/pano_wellcome.jpg').default;
+const pano1_url:string              = require('../img/pano1.jpg').default;
+const pano2_url:string              = require('../img/pano2.jpg').default;
+const pano_wellcome_url:string      = require('../img/pano_wellcome.jpg').default;
+const pano_prev_dickanat_url:string = require('../img/pano_prev_dickanat.jpg').default;
+const pano_dickanat_url:string      = require('../img/pano_dickanat.jpg').default;
 
 const steve_url:string         = '../models/steve/scene.gltf';// require('../models/steve/scene.gltf').default;
 const apple_url:string         = '../models/apple/scene.gltf';// require('../models/apple/scene.gltf').default;
-const sandwich_url:string         = '../models/sandwich/sandwich.gltf';
-
-// Try to maximize
-function download(url) {
-  window.location.href = url;
-}
+const sandwich_url:string      = '../models/sandwich/sandwich.gltf';
 
 declare global{
     interface Window{
         DEBUG:boolean;
         GUI: dat.GUI;
+        PANORAMS : {[key: string] : PANOLENS.Panorama;};
     }
 }
+
+window.PANORAMS = {};
 
 function initWelcomeScreen(viewer, nextPano) {
     console.log('loading welcome screen');
 
-    let element = document.querySelector("#pano-image > canvas"); // Blur
+    let element:HTMLElement = document.querySelector("#pano-image > canvas") as HTMLElement; // Blur
 
     element.style.filter = "blur(5px)";
 
@@ -77,6 +77,8 @@ export function init() : PANOLENS.Viewer {
     const viewer: PANOLENS.Viewer = new PANOLENS.Viewer({
         container: panoDiv,
         output: 'console',
+        controlButtons: ['setting', 'video'],
+        autoHideInfospot: false,
     });
 
 
@@ -88,15 +90,14 @@ export function init() : PANOLENS.Viewer {
     if(window.DEBUG)
         window.GUI = new dat.GUI();
 
-    let objects: {[key: string] : PANOLENS.Panorama;} = {};
-
     for(let pan of panorams) {
         pan.setViewer(viewer);
         viewer.add( pan.pano_obj );
-        // pan.pano_obj.updateTexture( textures[pan.link] );
 
-        objects[pan.name] = pan.pano_obj;
+        window.PANORAMS[pan.name] = pan.pano_obj;
     }
+    // for(let pan of panorams) pan.linking();
+
     // init edges
     for(const pan of panorams) {
         for(const {dest, pos} of pan.transition_edges) {
@@ -161,6 +162,27 @@ export const panorams = [
         transition_edges: [{
             dest:"hall_4f_1b",
             pos: new THREE.Vector3( -5000.00, -414.86, 131.79 )
+        },{
+            dest:"prev_dickanat_4f_1b",
+            pos: new THREE.Vector3( 4975.25, -380.38, -187.13 )
+        }],
+        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        npc_list: [{
+            npc: MAIN_NPC,
+            pos: new THREE.Vector3(100, 0, 40)
+        }],
+        lightPos: []
+    }),
+    new PanoramaItem({
+        name: "prev_dickanat_4f_1b",
+        pano_url: pano_prev_dickanat_url,
+        transition_edges: [{
+            dest:"hall_4f_1b",
+            pos: new THREE.Vector3( -5000.00, -414.86, 131.79 )
+
+        },{
+            dest:"hall_4f_1b",
+            pos: new THREE.Vector3( 4975.25, -380.38, -187.13 )
         }],
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{

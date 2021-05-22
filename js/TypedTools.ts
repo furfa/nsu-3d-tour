@@ -9,7 +9,7 @@ export enum AfterAction {
 }
 
 // Globals for configuring typing
-let typeSpeed: number = 0;
+let typeSpeed: number = 1;
 let typedMain: Typed;
 let typedOptions: Typed[] = [];
 
@@ -19,11 +19,58 @@ export function typeMain(strings: string[]) : void {
 
     typedMain && clearDialogue();
     showActionBox();
-    typedMain = new Typed('#typed', {
-        strings: ["",...strings],
-        typeSpeed: typeSpeed,
-        showCursor: false,
-    });
+    let messages = balancer(string);
+
+    let promises = [];
+
+    const getProm = (index) => {
+        if(index >= messages.length) return;
+
+        let message = messages[index];
+
+        if(index != messages.length - 1){
+            message +="<br/>➡КЛИК➡";
+        }else{
+            return new Promise<void>((resolve)=>{
+                typedMain = new Typed('#typed', {
+                    strings: ["", message],
+                    typeSpeed: typeSpeed,
+                    showCursor: false,
+                    onComplete(self: Typed) {
+                        resolve();
+                    }
+                });
+
+            });
+        }
+
+
+        return new Promise<void> ((resolve) => {
+            typedMain = new Typed('#typed', {
+                strings: ["", message],
+                typeSpeed: typeSpeed,
+                showCursor: false,
+            });
+            const clickHandler = () => {
+                resolve();
+                dialogueBox.removeEventListener("click", clickHandler, false);
+            }
+
+            dialogueBox.addEventListener("click", clickHandler, false);
+        }).then(() => getProm(index+1));
+    }
+
+    await getProm(0);
+
+    await options_func();
+
+
+    // typedMain = new Typed('#typed', {
+    //     // strings: [balancer(string)],
+    //     strings: [string],
+    //     typeSpeed: typeSpeed,
+    //     showCursor: false,
+    // });
 }
 
 // Type response options
@@ -32,7 +79,7 @@ function typeOption(options: string[], selector: string) : void {
     let typedOption;
 
     typedOption = new Typed(`#${selector}`, {
-        strings: ["",...options],
+        strings: [...options],
         typeSpeed: typeSpeed,
         showCursor: false,
     });
