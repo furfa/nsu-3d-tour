@@ -52,6 +52,7 @@ export class NPC implements NPCInterface {
     name;
     path;
     replicas;
+    replicas_path:string;
     npc_obj: THREE.Object3D|any;
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
@@ -72,6 +73,13 @@ export class NPC implements NPCInterface {
     async load() : Promise<void> {
         if(this.npc_obj) return;
 
+        // load replicas
+
+        if (this.replicas_path != "") {
+            this.replicas = await getReplicasByConfig(this.replicas_path);
+        }
+
+        // load model
         console.log("loading npc model")
 
         if(this.path.endsWith(".gltf")){

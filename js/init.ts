@@ -78,7 +78,7 @@ export function init() : PANOLENS.Viewer {
         container: panoDiv,
         output: 'console',
         controlButtons: ['setting', 'video'],
-        autoHideInfospot: false,
+        // autoHideInfospot: false,
     });
 
 
@@ -124,7 +124,7 @@ export function init() : PANOLENS.Viewer {
 
 export const MAIN_NPC = new NPC("steve", steve_url);
 // export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
-export const SANDWICH_FOOD = new Food("SANDWICH", sandwich_url, 1, {x:0.1,y:0.1,z:0.1});
+export const SANDWICH_FOOD = new Food("SANDWICH", sandwich_url, 1, {x: 0.1, y: 0.1, z: 0.1});
 export const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 6);
 STATUS_BAR.load();
 STATUS_BAR.increase(3);
@@ -142,29 +142,29 @@ export const panorams = [
         name: "hall_4f_1b",
         pano_url: pano1_url,
         transition_edges: [{
-            dest:"after_cava_4f_1b",
-            pos: new THREE.Vector3( 3047.29, -767.20, 3880.51 )
+            dest: "after_cava_4f_1b",
+            pos: new THREE.Vector3(3047.29, -767.20, 3880.51)
         }],
         enter_look_direction: new THREE.Vector3(4464.09, -738.67, 2113.00),
         npc_list: [{
             npc: MAIN_NPC,
             pos: new THREE.Vector3(20, 0, 40)
         },
-        {
-            npc: SANDWICH_FOOD,
-            pos: new THREE.Vector3(-2, -2, -3.5)
-        }],
+            {
+                npc: SANDWICH_FOOD,
+                pos: new THREE.Vector3(-2, -2, -3.5)
+            }],
         lightPos: [new THREE.Vector3(30, 0, 0)]
     }),
     new PanoramaItem({
         name: "after_cava_4f_1b",
         pano_url: pano2_url,
         transition_edges: [{
-            dest:"hall_4f_1b",
-            pos: new THREE.Vector3( -5000.00, -414.86, 131.79 )
-        },{
-            dest:"prev_dickanat_4f_1b",
-            pos: new THREE.Vector3( 4975.25, -380.38, -187.13 )
+            dest: "hall_4f_1b",
+            pos: new THREE.Vector3(-5000.00, -414.86, 131.79)
+        }, {
+            dest: "prev_dickanat_4f_1b",
+            pos: new THREE.Vector3(4975.25, -380.38, -187.13)
         }],
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
@@ -177,12 +177,12 @@ export const panorams = [
         name: "prev_dickanat_4f_1b",
         pano_url: pano_prev_dickanat_url,
         transition_edges: [{
-            dest:"hall_4f_1b",
-            pos: new THREE.Vector3( -5000.00, -414.86, 131.79 )
+            dest: "hall_4f_1b",
+            pos: new THREE.Vector3(-5000.00, -414.86, 131.79)
 
-        },{
-            dest:"hall_4f_1b",
-            pos: new THREE.Vector3( 4975.25, -380.38, -187.13 )
+        }, {
+            dest: "hall_4f_1b",
+            pos: new THREE.Vector3(4975.25, -380.38, -187.13)
         }],
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
@@ -192,3 +192,4 @@ export const panorams = [
         lightPos: []
     }),
 ];
+

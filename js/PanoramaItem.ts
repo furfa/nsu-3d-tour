@@ -182,6 +182,7 @@ export class PanoramaItem implements PanoramaItemInterface {
 
         // panolens kostil
         this.pano_obj.visible = true;
+        // this.pano_obj.isInfospotVisible = true;
     }
 
     deleteNpcFromList(npc: NPC) {
