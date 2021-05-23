@@ -6,6 +6,15 @@ import { addDebugGUI } from './SceneFunctions';
 
 import TWEEN from '@tweenjs/tween.js';
 
+export async function getReplicasByConfig(filename : string) : Promise<NPCReplicaInterface[]> {
+    console.log('filename', filename);
+    if (!filename.endsWith(".json")) {
+        console.warn(`unable to parse ${filename} (need .json)`);
+        return null;
+    }
+    let response = await fetch(filename)
+    return await response.json();
+}
 
 export interface NPCReplicaInterface {
     text:string,
@@ -16,28 +25,9 @@ export interface NPCReplicaInterface {
 }
 const npcReplicasExample = [
     {
-        text: "привет! меня зовут ****! сегодня я тебе расскажу о лучшем факультете Новосибирского государственного университета-механико-математическом! Сейчас мы находимся на 4 этаже. пойдем, я тебе расскажу как тут всё устроено. ",
-        options: ["Люблю матфак и всё что с ним связано", "Матфак НЕ лучший факультет"],
+        text: "Это стандартный диалог. Если ты его видишь, что-то пошло не так...",
+        options: ["Ладно", "Текст"],
         emojis: ["128150", "128548"],
-        order: [1, 3]
-    },
-    {
-        text: "Да, я тоже. Поэтому мы здесь.\n" +
-            "Сзади тебя находится яблоко, съешь его!",
-        options: ["Зачем?", "Хорошая идея"],
-        emojis: ["128563", "128077"],
-        order: [2, -1]
-    },
-    {
-        text: "Ты задаешь слишком много вопросов",
-        options: ["Диалог был написан в 12 часов ночи. спасибо за внимание"],
-        emojis: ["9851"],
-        order: [-1]
-    },
-    {
-        text: "-20 social credits",
-        options: ["Звуки ярости", "Звуки справедливости"],
-        emojis: ["129324", "128519"],
         order: [-1, -1]
     }
 ]
@@ -57,11 +47,12 @@ export class NPC implements NPCInterface {
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
 
-    constructor(name : string, path : string, replicas: NPCReplicaInterface[] = npcReplicasExample) {
+    constructor(name : string, path : string, replicasPath: string="") {
         this.name = `npc_${name}`;
         this.npc_obj = null;
         this.path = path;
-        this.replicas = replicas;
+        this.replicas_path = replicasPath;
+
         this.replica_i = 0;
         this.usualScale = {
             x : 0.8,

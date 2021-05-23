@@ -1,5 +1,5 @@
 import { typeDialog } from "./TypedTools";
-import { NPC, NPCReplicaInterface } from "./NPC";
+import {getReplicasByConfig, NPC, NPCReplicaInterface} from "./NPC";
 import { Food } from "./Food";
 import { PanoramaItem } from "./PanoramaItem";
 import { StatusBar } from "./StatusBar";
@@ -24,10 +24,12 @@ declare global{
         DEBUG:boolean;
         GUI: dat.GUI;
         PANORAMS : {[key: string] : PANOLENS.Panorama;};
+        NPCS : {[key: string] : NPC;};
     }
 }
 
 window.PANORAMS = {};
+window.NPCS = {};
 
 function initWelcomeScreen(viewer, nextPano) {
     console.log('loading welcome screen');
@@ -121,8 +123,7 @@ export function init() : PANOLENS.Viewer {
 }
 
 // TODO: Rewrite this hardcode to reading configs
-
-export const MAIN_NPC = new NPC("steve", steve_url);
+export const MAIN_NPC = new NPC("steve", steve_url, '../content/first-man.json');
 // export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
 export const SANDWICH_FOOD = new Food("SANDWICH", sandwich_url, 1, {x: 0.1, y: 0.1, z: 0.1});
 export const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 6);
