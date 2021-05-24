@@ -86,6 +86,10 @@ export class PanoramaItem implements PanoramaItemInterface {
 
         // Enter event
         this.pano_obj.addEventListener('enter', () => {
+            let progressElement = document.getElementById( 'progress' ) as HTMLElement;
+            progressElement.style.width = "0";
+            progressElement.classList.remove( 'finish' );
+
             this.linking();
             current_location = this.name;
             console.log(`entering "${current_location}"`);
@@ -114,6 +118,15 @@ export class PanoramaItem implements PanoramaItemInterface {
             }
 
             console.log('init scene', this);
+        });
+
+        this.pano_obj.addEventListener( 'progress', (event) => {
+            let progressElement = document.getElementById( 'progress' ) as HTMLElement;
+            let progress = event.progress.loaded / event.progress.total * 100;
+            progressElement.style.width = progress + '%';
+            if ( progress === 100 ) {
+              progressElement.classList.add( 'finish' );
+            }
         });
 
         // Leave event

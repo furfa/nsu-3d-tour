@@ -12,6 +12,21 @@ html, body {
     background-color: #000;
 }
 
+/* Progress bar */
+#progress {
+    width: 0;
+    height: 5px;
+    position: fixed;
+    top: 0;
+    background: #fff;
+    -webkit-transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
+}
+
+#progress.finish {
+    opacity: 0;
+}
+
 /* Dialogues box */
 
 @media (max-width: 768px) {
