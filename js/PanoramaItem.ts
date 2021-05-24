@@ -11,7 +11,7 @@ interface PanoramaItemInterface {
     pano_url: string;
     transition_edges: { dest: string, pos: THREE.Vector3 }[];
     enter_look_direction: THREE.Vector3;
-    npc_list: {npc: NPC, pos: THREE.Vector3}[];
+    npc_list: {npc: NPC, pos: THREE.Vector3, dialogue?: string}[];
     lightPos: THREE.Vector3[];
 }
 
@@ -76,9 +76,16 @@ export class PanoramaItem implements PanoramaItemInterface {
         }
     }
 
-    moveNPCs() {
+    moveNpcs() {
         for(let {npc, pos} of this.npc_list) {
             npc.move(pos);
+        }
+    }
+
+    setNpcDialogs() {
+        for(let {npc, pos, dialogue} of this.npc_list) {
+            if(dialogue)
+                npc.setReplicasPath(dialogue);
         }
     }
 
@@ -93,7 +100,8 @@ export class PanoramaItem implements PanoramaItemInterface {
             this.linking();
             current_location = this.name;
             console.log(`entering "${current_location}"`);
-            this.loadNPCs().then(() => this.moveNPCs());
+            this.setNpcDialogs();
+            this.loadNPCs().then(() => this.moveNpcs());
             if(this.first_look) {
                 this.viewer.tweenControlCenter(this.enter_look_direction, 0);
                 console.log(`Looking at ${this.enter_look_direction}`);

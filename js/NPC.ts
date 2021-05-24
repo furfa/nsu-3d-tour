@@ -47,11 +47,11 @@ export class NPC implements NPCInterface {
     replica_i: number;
     usualScale: {x: number, y:number, z:number};
 
-    constructor(name : string, path : string, replicasPath: string="") {
+    constructor(name : string, path : string) {
         this.name = `npc_${name}`;
         this.npc_obj = null;
         this.path = path;
-        this.replicas_path = replicasPath;
+        this.replicas_path = "";
 
         this.replica_i = 0;
         this.usualScale = {
@@ -61,9 +61,11 @@ export class NPC implements NPCInterface {
         }
     }
 
-    async load() : Promise<void> {
-        if(this.npc_obj) return;
+    setReplicasPath(path:string){
+        this.replicas_path = path;
+    }
 
+    async load() : Promise<void> {
         // load replicas
 
         if (this.replicas_path != "") {
@@ -71,6 +73,8 @@ export class NPC implements NPCInterface {
         }
 
         // load model
+        if(this.npc_obj) return;
+
         console.log("loading npc model")
 
         if(this.path.endsWith(".gltf")){
