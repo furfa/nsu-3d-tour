@@ -159,7 +159,7 @@ export const panorams = [
         npc_list: [{
                 npc: MAIN_NPC,
                 pos: new THREE.Vector3(20, 0, 40),
-                dialogue: '../content/first-man.json',
+                dialogue: '../content/1f2b.json',
             },
             {
                 npc: SANDWICH_FOOD,
@@ -181,7 +181,7 @@ export const panorams = [
         npc_list: [{
             npc: MAIN_NPC,
             pos: new THREE.Vector3(100, 0, 40),
-            dialogue: '../content/second-man.json',
+            dialogue: '../content/4_elev.json',
         }],
         lightPos: []
     }),
@@ -199,7 +199,7 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
             npc: MAIN_NPC,
-            pos: new THREE.Vector3(100, 0, 40)
+            pos: new THREE.Vector3(100, 0, 40),
         }],
         lightPos: []
     }),
