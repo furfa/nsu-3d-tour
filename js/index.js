@@ -23,14 +23,5 @@ const viewer = init();
 
 viewer.addUpdateCallback(() => {
     TWEEN.update();
-
-    if(MAIN_NPC.npc_obj) {
-
-        // Steve mirroring rotation:
-        let angle = viewer.getControl().getAzimuthalAngle();
-        let dot = calculateViewCoords(angle);
-        MAIN_NPC.npc_obj.rotation.y = calculateViewRotation(dot, MAIN_NPC.npc_obj.position);
-
-    }
 });
 

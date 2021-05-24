@@ -6,6 +6,7 @@ import { StatusBar } from "./StatusBar";
 import * as THREE from "three";
 import * as PANOLENS from "panolens";
 import * as dat from 'dat.gui';
+import {rotateNpc} from "./SceneFunctions";
 
 
 // import panorams
@@ -25,6 +26,7 @@ const pano_prev_dickanat_url:string = require('../img/pano_prev_dickanat.jpg').d
 const pano_dickanat_url:string      = require('../img/pano_dickanat.jpg').default;
 
 const steve_url:string         = '../models/steve/scene.gltf';// require('../models/steve/scene.gltf').default;
+const ruban_url:string         = '../models/ruban/scene.gltf';
 const apple_url:string         = '../models/apple/scene.gltf';// require('../models/apple/scene.gltf').default;
 const sandwich_url:string      = '../models/sandwich/sandwich.gltf';
 
@@ -40,36 +42,6 @@ declare global{
 window.PANORAMS = {};
 window.NPCS = {};
 
-function initWelcomeScreen(viewer, nextPano) {
-    console.log('loading welcome screen');
-
-    let element:HTMLElement = document.querySelector("#pano-image > canvas") as HTMLElement; // Blur
-
-    element.style.filter = "blur(5px)";
-
-    let rotationAnim = () => { viewer.panorama.rotation.y -= 0.001; }; // Rotation
-    viewer.addUpdateCallback(rotationAnim);
-
-    const welcomeDialogue : NPCReplicaInterface[] = [{ // Start 'button'
-        text: "Добро пожаловать в NSU-Tour!",
-        options: ["Начать тур!"],
-        emojis: [],
-        order: [-1]
-    }];
-
-    const food_bar = document.getElementById("food-bar"); // Hide food bar
-
-    // Start game, so remove all effects
-    typeDialog(welcomeDialogue).then(() => {
-     console.log("welcome dialog ended");
-     viewer.setPanorama(nextPano.pano_obj);
-     viewer.removeUpdateCallback(rotationAnim);
-     element.style.filter = "";
-
-     food_bar.style.opacity = "1";
-    })
-
-}
 
 export function init() : PANOLENS.Viewer {
 
@@ -103,41 +75,72 @@ export function init() : PANOLENS.Viewer {
 
     for(let pan of panorams) {
         pan.setViewer(viewer);
-        viewer.add( pan.pano_obj );
-
         window.PANORAMS[pan.name] = pan.pano_obj;
+    }
+
+    for(let pan of panorams) {
+        viewer.add( pan.pano_obj );
     }
     // for(let pan of panorams) pan.linking();
 
-    // init edges
-    // for(const pan of panorams) {
-    //     for(const {dest, pos} of pan.transition_edges) {
-    //
-    //         if(!objects[dest]) {
-    //             console.log(`panorama with name: "${dest}" not exist can't link`)
-    //             continue;
-    //         }
-    //
-    //         pan.pano_obj.link( window.PANORAMS[dest], pos );
-    //     }
-    // }
-
     panorams[0].pano_obj.addEventListener( 'load', () => {
         // Фикс, чтобы панорма загружалась. Тк css грузится после js
+       // bug fix
         viewer.HANDLER_WINDOW_RESIZE();
-        initWelcomeScreen(viewer, panorams[1]);
     });
+
+    // Надо переписать
+    viewer.addUpdateCallback(() => {
+        rotateNpc(MAIN_NPC.npc_obj, viewer);
+        rotateNpc(RUBAN_NPC.npc_obj, viewer);
+    });
+
 
     return viewer;
 }
 
 // TODO: Rewrite this hardcode to reading configs
 export const MAIN_NPC = new NPC("steve", steve_url);
-// export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
+export const RUBAN_NPC = new NPC("ruban", ruban_url);
+
 export const SANDWICH_FOOD = new Food("SANDWICH", sandwich_url, 1, {x: 0.1, y: 0.1, z: 0.1});
+export const APPLE_FOOD = new Food("APPLE", apple_url, 1, {x: 0.8, y: 0.8, z: 0.8});
 export const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 6);
 STATUS_BAR.load();
-STATUS_BAR.increase(3);
+STATUS_BAR.increase(0);
+
+const initWelcomeScreen = (viewer) => {
+
+    let nextPano : PANOLENS.Panorama = window.PANORAMS["1f2b_entry"];
+    console.log("nextPano", nextPano);
+
+    console.log('loading welcome screen');
+
+    let element:HTMLElement = document.querySelector("#pano-image > canvas") as HTMLElement; // Blur
+
+    element.style.filter = "blur(5px)";
+
+    let rotationAnim = () => { viewer.panorama.rotation.y -= 0.001; }; // Rotation
+    viewer.addUpdateCallback(rotationAnim);
+
+    const welcomeDialogue : NPCReplicaInterface[] = [{ // Start 'button'
+        text: "Добро пожаловать в NSU-Tour!",
+        options: ["Начать тур!"],
+        emojis: [],
+        order: [-1]
+    }];
+
+    const food_bar = document.getElementById("food-bar"); // Hide food bar
+
+    // Start game, so remove all effects
+    typeDialog(welcomeDialogue).then(() => {
+         console.log("welcome dialog ended");
+         viewer.setPanorama(nextPano);
+         viewer.removeUpdateCallback(rotationAnim);
+         element.style.filter = "";
+         food_bar.style.opacity = "1";
+    })
+}
 
 export const panorams = [
     new PanoramaItem({
@@ -146,7 +149,8 @@ export const panorams = [
         transition_edges: [],
         enter_look_direction: new THREE.Vector3(0, 0, 0),
         npc_list: [],
-        lightPos: []
+        lightPos: [],
+        onEnter: initWelcomeScreen,
     }, false),
     new PanoramaItem({
         name: "1f2b_entry",
@@ -158,14 +162,26 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(4464.09, -738.67, 2113.00),
         npc_list: [{
                 npc: MAIN_NPC,
-                pos: new THREE.Vector3(20, 0, 40),
+                pos: new THREE.Vector3(18, -13, 33),
                 dialogue: '../content/1f2b.json',
             },
             {
-                npc: SANDWICH_FOOD,
-                pos: new THREE.Vector3(-2, -2, -3.5)
+                npc: APPLE_FOOD,
+                pos: new THREE.Vector3(0, -4, -22),
+                dialogue: "../content/apple_replics.json"
             }],
-        lightPos: [new THREE.Vector3(30, 0, 0)]
+        lightPos: [new THREE.Vector3(30, 0, 0)],
+        onEnter: ()=>{
+
+
+            const guideDialogue : NPCReplicaInterface[] = [{ // Start 'button'
+                text: "Ты в учебном корпусе НГУ. Чтобы поговорить с персонажем нажми на него )",
+                options: ["Понел"],
+                emojis: ["128076"],
+                order: [-1]
+            }];
+            typeDialog(guideDialogue);
+        }
     }),
     new PanoramaItem({
         name: "4_elev",
@@ -177,10 +193,10 @@ export const panorams = [
             dest: "4_cava_new",
             pos: new THREE.Vector3(3067.86, -595.19, 3890.01)
         }],
-        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        enter_look_direction: new THREE.Vector3(-3506.86, -461.77, 3521.14),
         npc_list: [{
-            npc: MAIN_NPC,
-            pos: new THREE.Vector3(100, 0, 40),
+            npc: RUBAN_NPC,
+            pos: new THREE.Vector3(-9, -17, 33),
             dialogue: '../content/4_elev.json',
         }],
         lightPos: []
@@ -190,16 +206,16 @@ export const panorams = [
         pano_url: pano4_cava_new_url,
         transition_edges: [{
             dest: "4_bookshare",
-            pos: new THREE.Vector3(4789.58, -626.60, -1250.63)
+            pos: new THREE.Vector3(-4806.11, -368.91, 1299.47)
 
         }, {
             dest: "4_elev",
-            pos: new THREE.Vector3(-4806.11, -368.91, 1299.47)
+            pos: new THREE.Vector3(4789.58, -626.60, -1250.63)
         }],
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
             npc: MAIN_NPC,
-            pos: new THREE.Vector3(100, 0, 40),
+            pos: new THREE.Vector3(29, -17, 18),
         }],
         lightPos: []
     }),
@@ -217,7 +233,7 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
             npc: MAIN_NPC,
-            pos: new THREE.Vector3(100, 0, 40)
+            pos: new THREE.Vector3(42, -15, 9)
         }],
         lightPos: []
     }),

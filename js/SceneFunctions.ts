@@ -61,3 +61,11 @@ export function addDebugGUI(obj: THREE.Object3D, name:string){
 export function calculateViewRotation(dot: THREE.Vector3, pos: THREE.Vector3) {
     return Math.atan2(dot.x - pos.x, dot.z - pos.z);
 }
+
+export function rotateNpc(npc, viewer){
+    if(npc){
+        let angle = viewer.getControl().getAzimuthalAngle();
+        let dot = calculateViewCoords(angle);
+        npc.rotation.y = calculateViewRotation(dot, npc.position);
+    }
+}

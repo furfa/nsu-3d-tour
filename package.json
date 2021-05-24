@@ -15,6 +15,12 @@
     "file-loader": "^6.2.0",
     "gltf-webpack-loader": "^1.0.6",
     "html-webpack-plugin": "^5.3.1",
+    "image-minimizer-webpack-plugin": "^2.2.0",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-svgo": "^9.0.0",
     "package-lock.json": "^1.0.0",
     "package.json": "^2.0.1",
     "panolens": "^0.12.1",
@@ -32,7 +38,10 @@
     "webpack-merge": "^5.7.3"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --env production",
     "dev": "webpack serve --liveReload --hot"
+  },
+  "devDependencies": {
+    "imagemin-jpegtran": "^7.0.0"
   }
 }

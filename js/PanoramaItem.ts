@@ -13,6 +13,8 @@ interface PanoramaItemInterface {
     enter_look_direction: THREE.Vector3;
     npc_list: {npc: NPC, pos: THREE.Vector3, dialogue?: string}[];
     lightPos: THREE.Vector3[];
+    onEnter?: any;
+    onLeave?: any;
 }
 
 export let current_location: string = "";
@@ -27,15 +29,19 @@ export class PanoramaItem implements PanoramaItemInterface {
     first_look: boolean;
     viewer:PANOLENS.Viewer;
     typedCanBeHidden: boolean;
+    onEnter: any;
+    onLeave: any;
 
     constructor({
-          name,
-          pano_url,
-          transition_edges = [],
-          enter_look_direction = new THREE.Vector3(0,0,0),
-          npc_list,
-          lightPos = []
-        } : PanoramaItemInterface, typedCanBeHidden: boolean = true) {
+                    name,
+                    pano_url,
+                    transition_edges = [],
+                    enter_look_direction = new THREE.Vector3(0,0,0),
+                    npc_list,
+                    lightPos = [],
+                    onEnter = ()=>{},
+                    onLeave = ()=>{},
+                } : PanoramaItemInterface, typedCanBeHidden: boolean = true) {
 
         this.name = name;
         this.pano_url = pano_url;
@@ -46,6 +52,8 @@ export class PanoramaItem implements PanoramaItemInterface {
         this.npc_list = npc_list;
         this.lightPos = lightPos;
         this.typedCanBeHidden = typedCanBeHidden;
+        this.onEnter = onEnter;
+        this.onLeave = onLeave;
 
         this.initScene();
     }
@@ -124,7 +132,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 // addFloor(this.pano_obj);
                 this.first_look = false;
             }
-
+            this.onEnter(this.viewer);
             console.log('init scene', this);
         });
 
@@ -139,7 +147,8 @@ export class PanoramaItem implements PanoramaItemInterface {
 
         // Leave event
         this.pano_obj.addEventListener('leave', () => {
-           console.log(`leave ${this.name}`);
+            this.onLeave(this.viewer);
+            console.log(`leave ${this.name}`);
         });
 
         // Click event
