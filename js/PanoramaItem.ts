@@ -86,7 +86,7 @@ export class PanoramaItem implements PanoramaItemInterface {
 
         // Enter event
         this.pano_obj.addEventListener('enter', () => {
-
+            this.linking();
             current_location = this.name;
             console.log(`entering "${current_location}"`);
             this.loadNPCs().then(() => this.moveNPCs());
@@ -162,7 +162,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 }
             }
             else if (action == AfterAction.UnlockLeaving) {
-                this.linking();
+                // this.linking();
             }
         });
     }

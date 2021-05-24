@@ -12,6 +12,15 @@ import * as dat from 'dat.gui';
 const pano1_url:string              = require('../img/pano1.jpg').default;
 const pano2_url:string              = require('../img/pano2.jpg').default;
 const pano_wellcome_url:string      = require('../img/pano_wellcome.jpg').default;
+const pano1f2b_entry_url:string     = require('../img/1f2b_entry.jpg').default;
+const pano4_elev_url:string         = require('../img/4_elev.jpg').default;
+const pano4_cava_new_url:string     = require('../img/4_cava_new.jpg').default;
+const pano4_bookshare_url:string    = require('../img/4_bookshare.jpg').default;
+const pano4_kbrd_url:string         = require('../img/4_kbrd.jpg').default;
+const pano3_near_3107_url:string    = require('../img/3_near_3107.jpg').default;
+const pano3_cafeteria_url:string    = require('../img/3_cafeteria.jpg').default;
+const pano3_cafeteria_galery_url:string = require('../img/3_cafeteria_galery.jpg').default;
+//3_cafeteria_galery
 const pano_prev_dickanat_url:string = require('../img/pano_prev_dickanat.jpg').default;
 const pano_dickanat_url:string      = require('../img/pano_dickanat.jpg').default;
 
@@ -140,11 +149,11 @@ export const panorams = [
         lightPos: []
     }, false),
     new PanoramaItem({
-        name: "hall_4f_1b",
-        pano_url: pano1_url,
+        name: "1f2b_entry",
+        pano_url: pano1f2b_entry_url,
         transition_edges: [{
-            dest: "after_cava_4f_1b",
-            pos: new THREE.Vector3(3047.29, -767.20, 3880.51)
+            dest: "4_elev",
+            pos: new THREE.Vector3(-4154.84, -788.19, -2654.85)
         }],
         enter_look_direction: new THREE.Vector3(4464.09, -738.67, 2113.00),
         npc_list: [{
@@ -158,14 +167,14 @@ export const panorams = [
         lightPos: [new THREE.Vector3(30, 0, 0)]
     }),
     new PanoramaItem({
-        name: "after_cava_4f_1b",
-        pano_url: pano2_url,
+        name: "4_elev",
+        pano_url: pano4_elev_url,
         transition_edges: [{
-            dest: "hall_4f_1b",
-            pos: new THREE.Vector3(-5000.00, -414.86, 131.79)
+            dest: "1f2b_entry",
+            pos: new THREE.Vector3(60.30, -1233.69, -4839.94)
         }, {
-            dest: "prev_dickanat_4f_1b",
-            pos: new THREE.Vector3(4975.25, -380.38, -187.13)
+            dest: "4_cava_new",
+            pos: new THREE.Vector3(3067.86, -595.19, 3890.01)
         }],
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
@@ -175,15 +184,105 @@ export const panorams = [
         lightPos: []
     }),
     new PanoramaItem({
-        name: "prev_dickanat_4f_1b",
-        pano_url: pano_prev_dickanat_url,
+        name: "4_cava_new",
+        pano_url: pano4_cava_new_url,
         transition_edges: [{
-            dest: "hall_4f_1b",
-            pos: new THREE.Vector3(-5000.00, -414.86, 131.79)
+            dest: "4_bookshare",
+            pos: new THREE.Vector3(4789.58, -626.60, -1250.63)
 
         }, {
+            dest: "4_elev",
+            pos: new THREE.Vector3(-4806.11, -368.91, 1299.47)
+        }],
+        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        npc_list: [{
+            npc: MAIN_NPC,
+            pos: new THREE.Vector3(100, 0, 40)
+        }],
+        lightPos: []
+    }),
+    new PanoramaItem({
+        name: "4_bookshare",
+        pano_url: pano4_bookshare_url,
+        transition_edges: [{
+            dest: "4_kbrd",
+            pos: new THREE.Vector3(4745.97, 13.77, -1567.83)
+
+        }, {
+            dest: "4_cava_new",
+            pos: new THREE.Vector3(-4821.59, -123.44, 1278.92)
+        }],
+        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        npc_list: [{
+            npc: MAIN_NPC,
+            pos: new THREE.Vector3(100, 0, 40)
+        }],
+        lightPos: []
+    }),
+    new PanoramaItem({
+        name: "4_kbrd",
+        pano_url: pano4_kbrd_url,
+        transition_edges: [{
+            dest: "3_near_3107",
+            pos: new THREE.Vector3(138.57, -346.01, -4979.14)
+
+        }, {
+            dest: "4_bookshare",
+            pos: new THREE.Vector3(-4711.32, -887.65, -1390.68)
+        }],
+        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        npc_list: [{
+            npc: MAIN_NPC,
+            pos: new THREE.Vector3(100, 0, 40)
+        }],
+        lightPos: []
+    }),
+    new PanoramaItem({
+        name: "3_near_3107",
+        pano_url: pano3_near_3107_url,
+        transition_edges: [{
+            dest: "3_cafeteria",
+            pos: new THREE.Vector3(4988.09, -45.51, -193.11)
+
+        }, {
+            dest: "4_kbrd",
+            pos: new THREE.Vector3(-4821.59, -123.44, 1278.92)
+        }],
+        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        npc_list: [{
+            npc: MAIN_NPC,
+            pos: new THREE.Vector3(100, 0, 40)
+        }],
+        lightPos: []
+    }),
+    new PanoramaItem({
+        name: "3_cafeteria",
+        pano_url: pano3_cafeteria_url,
+        transition_edges: [{
+            dest: "3_cafeteria_galery",
+            pos: new THREE.Vector3(4771.41, -1447.13, 219.43)
+
+        }, {
+            dest: "3_near_3107",
+            pos: new THREE.Vector3(676.16, -317.22, -4935.69)
+        }],
+        enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
+        npc_list: [{
+            npc: MAIN_NPC,
+            pos: new THREE.Vector3(100, 0, 40)
+        }],
+        lightPos: []
+    }),
+    new PanoramaItem({
+        name: "3_cafeteria_galery",
+        pano_url: pano3_cafeteria_galery_url,
+        transition_edges: [{
             dest: "hall_4f_1b",
-            pos: new THREE.Vector3(4975.25, -380.38, -187.13)
+            pos: new THREE.Vector3(4745.97, 13.77, -1567.83)
+
+        }, {
+            dest: "3_cafeteria",
+            pos: new THREE.Vector3(-363.07, -1106.21, -4854.96)
         }],
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
