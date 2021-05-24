@@ -132,7 +132,7 @@ export function init() : PANOLENS.Viewer {
 }
 
 // TODO: Rewrite this hardcode to reading configs
-export const MAIN_NPC = new NPC("steve", steve_url, '../content/first-man.json');
+export const MAIN_NPC = new NPC("steve", steve_url);
 // export const MAIN_NPC = new NPC("steve", "../models/ded/Ch39_nonPBR.fbx");
 export const SANDWICH_FOOD = new Food("SANDWICH", sandwich_url, 1, {x: 0.1, y: 0.1, z: 0.1});
 export const STATUS_BAR = new StatusBar("food-bar", "", "food-bar", 6);
@@ -157,9 +157,10 @@ export const panorams = [
         }],
         enter_look_direction: new THREE.Vector3(4464.09, -738.67, 2113.00),
         npc_list: [{
-            npc: MAIN_NPC,
-            pos: new THREE.Vector3(20, 0, 40)
-        },
+                npc: MAIN_NPC,
+                pos: new THREE.Vector3(20, 0, 40),
+                dialogue: '../content/first-man.json',
+            },
             {
                 npc: SANDWICH_FOOD,
                 pos: new THREE.Vector3(-2, -2, -3.5)
@@ -179,7 +180,8 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
             npc: MAIN_NPC,
-            pos: new THREE.Vector3(100, 0, 40)
+            pos: new THREE.Vector3(100, 0, 40),
+            dialogue: '../content/second-man.json',
         }],
         lightPos: []
     }),

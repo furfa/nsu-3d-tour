@@ -25,6 +25,7 @@ const defaultActions : NPCReplicaInterface[] = [
 
 export class Food extends NPC {
     eatCost: number;
+    replicas_path = "";
     constructor(name : string, path : string, eatCost:number=1, scale:{x:number,y:number,z:number}={x:0.4, y:0.4, z:0.4}) {
         super(name, path);
         this.replicas = defaultActions;
