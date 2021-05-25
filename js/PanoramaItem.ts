@@ -121,7 +121,7 @@ export class PanoramaItem implements PanoramaItemInterface {
                 }
 
                 // КОСТЫЛЬ ЕБУЧИЙ
-                if(window.GUI.__folders["plane"]) {
+                if(window.DEBUG && window.GUI.__folders["plane"]) {
                     let folder = window.GUI.__folders["plane"];
                     folder.close();
                     // @ts-ignore

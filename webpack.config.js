@@ -1,7 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
+
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
@@ -106,6 +108,7 @@ module.exports = (env) => {
             new webpack.ProvidePlugin({
                 process: 'process/browser',
             }),
+            new Dotenv(),
 
         ],
 

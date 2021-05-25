@@ -68,8 +68,6 @@ export function init() : PANOLENS.Viewer {
     // TODO:
     // - расширить интерфейс окна для добавления новых проперти
 
-    window.DEBUG = true;
-
     if(window.DEBUG)
         window.GUI = new dat.GUI();
 
@@ -172,8 +170,6 @@ export const panorams = [
             }],
         lightPos: [new THREE.Vector3(30, 0, 0)],
         onEnter: ()=>{
-
-
             const guideDialogue : NPCReplicaInterface[] = [{ // Start 'button'
                 text: "Ты в учебном корпусе НГУ. Чтобы поговорить с персонажем нажми на него )",
                 options: ["Понел"],
@@ -199,7 +195,7 @@ export const panorams = [
             pos: new THREE.Vector3(-9, -17, 33),
             dialogue: '../content/4_elev.json',
         }],
-        lightPos: []
+        lightPos: [new THREE.Vector3(30, 0, 0)]
     }),
     new PanoramaItem({
         name: "4_cava_new",
@@ -216,6 +212,11 @@ export const panorams = [
         npc_list: [{
             npc: MAIN_NPC,
             pos: new THREE.Vector3(29, -17, 18),
+            dialogue: "../content/cava.json"
+        },
+        {
+            npc: SANDWICH_FOOD,
+            pos: new THREE.Vector3(-40, -11, 0),
         }],
         lightPos: []
     }),
@@ -233,7 +234,8 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
             npc: MAIN_NPC,
-            pos: new THREE.Vector3(42, -15, 9)
+            pos: new THREE.Vector3(42, -15, 9),
+            dialogue: "../content/bookshare.json"
         }],
         lightPos: []
     }),
@@ -251,7 +253,8 @@ export const panorams = [
         enter_look_direction: new THREE.Vector3(-4808.73, -492.69, -1240.28),
         npc_list: [{
             npc: MAIN_NPC,
-            pos: new THREE.Vector3(100, 0, 40)
+            pos: new THREE.Vector3(29, -17, -29),
+            dialogue: "../content/kbrd.json"
         }],
         lightPos: []
     }),
